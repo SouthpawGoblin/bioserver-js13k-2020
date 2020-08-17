@@ -4,6 +4,8 @@
   align-items: center;
   justify-content: center;
   & > .likes {
+    flex: 1 0;
+    text-align: right;
   }
   & > .title {
     font-size: 2rem;
@@ -19,5 +21,6 @@
     margin: 0 5rem;
   }
   & > .statistics {
+    flex: 1 0;
   }
 }

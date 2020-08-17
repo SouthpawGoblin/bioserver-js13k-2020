@@ -1,6 +1,7 @@
 const GameStateChangedEvent = document.createEvent('CustomEvent');
 const PauseChangedEvent = document.createEvent('CustomEvent');
 const LikesChangedEvent = document.createEvent('CustomEvent');
+const TurnCountChangedEvent = document.createEvent('CustomEvent');
 const SuccessCountChangedEvent = document.createEvent('CustomEvent');
 const FailCountChangedEvent = document.createEvent('CustomEvent');
 
@@ -8,6 +9,7 @@ const GameEvents = {
   GameStateChanged: GameStateChangedEvent,
   PauseChanged: PauseChangedEvent,
   LikesChanged: LikesChangedEvent,
+  TurnCountChanged: TurnCountChangedEvent,
   SuccessCountChanged: SuccessCountChangedEvent,
   FailCountChanged: FailCountChangedEvent,
 };

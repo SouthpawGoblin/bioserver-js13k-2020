@@ -7,6 +7,7 @@ export default class Game {
   private _gameState: GameState = 'NONE';
   private _paused: boolean = false;
   private _likes: number = 0;
+  private _turnCount: number = 1;
   private _successCount: number = 0;
   private _failCount: number = 0;
   
@@ -50,6 +51,17 @@ export default class Game {
     this._likes = num;
   }
 
+  get turnCount() {
+    return this._turnCount;
+  }
+  set turnCount(num: number) {
+    $.dispatch('TurnCountChanged', {
+      oldVal: this._turnCount,
+      newVal: num,
+    });
+    this._turnCount = num;
+  }
+
   get successCount() {
     return this._successCount;
   }
@@ -84,5 +96,10 @@ export default class Game {
   start() {
     const instance = Game.getInstance();
     instance.gameState = 'RUNNING';
+  }
+
+  nextTurn() {
+    const instance = Game.getInstance();
+    instance.turnCount += 1;
   }
 }
