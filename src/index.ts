@@ -1,6 +1,18 @@
 import './index.scss';
+import header from './blocks/header';
+import Game from './game';
+import pauseInfo from './blocks/pauseInfo';
 
-const container = document.createElement('div');
-container.innerText = 'BioServer';
-document.body.appendChild(container);
-document.createEvent('')
+document.body.appendChild(header());
+document.body.appendChild(pauseInfo());
+
+const testBtn = document.createElement('button');
+testBtn.innerText = 'test';
+testBtn.onclick = event => {
+  const game = Game.getInstance();
+  game.likes += 50;
+}
+document.body.appendChild(testBtn);
+
+const game = Game.getInstance();
+game.init();

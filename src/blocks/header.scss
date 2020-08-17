@@ -1,0 +1,23 @@
+.header {
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > .likes {
+  }
+  & > .title {
+    font-size: 2rem;
+    font-weight: bold;
+    width: 40rem;
+    height: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 2px 3px 0 #bbbbbb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5rem;
+  }
+  & > .statistics {
+  }
+}
