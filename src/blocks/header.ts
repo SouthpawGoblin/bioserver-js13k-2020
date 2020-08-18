@@ -1,43 +1,47 @@
 import $ from '../event';
 import './header.scss';
 import { LIKES_NEEDED } from '../constants';
+import SimpleDom from '../simple-dom';
 
-export default function header(): HTMLElement {
-  const header = document.createElement('header');
-  header.className = 'header';
+export default function header(): SimpleDom {
+  const header = new SimpleDom('header');
+  header.class('header');
 
-  const likes = document.createElement('div');
-  likes.className = 'likes';
+  const likes = new SimpleDom('div');
+  likes.class('likes');
   
-  const title = document.createElement('div');
-  title.className = 'title';
-  title.innerText = 'Bio-Server';
+  const title = new SimpleDom('div');
+  title
+    .class('title')
+    .text('Bio-Server');
   
-  const statistics = document.createElement('div');
-  statistics.className = 'statistics';
-  const successCount = document.createElement('div');
-  const failCount = document.createElement('div');
-  statistics.appendChild(successCount);
-  statistics.appendChild(failCount);
+  const statistics = new SimpleDom('div');
+  statistics.class('statistics');
+  const successCount = new SimpleDom('div');
+  const failCount = new SimpleDom('div');
+  statistics
+    .append(successCount)
+    .append(failCount);
   
   $.on('LikesChanged', event => {
     const { oldVal, newVal } = (event as CustomEvent).detail;
-    likes.innerText = `likes: ${newVal}/${LIKES_NEEDED}`;
+    likes.text(`likes: ${newVal}/${LIKES_NEEDED}`);
   });
 
   $.on('SuccessCountChanged', event => {
     const { oldVal, newVal } = (event as CustomEvent).detail;
-    successCount.innerHTML = `success: ${newVal}`;
+    successCount.text(`success: ${newVal}`);
   });
 
   $.on('FailCountChanged', event => {
     const { oldVal, newVal } = (event as CustomEvent).detail;
-    failCount.innerHTML = `fail: ${newVal}`;
+    failCount.text(`fail: ${newVal}`);
   });
 
-  header.appendChild(likes);
-  header.appendChild(title);
-  header.appendChild(statistics);
+  header
+    .append(likes)
+    .append(title)
+    .append(statistics);
 
   return header;
 }

@@ -1,16 +1,19 @@
 import $ from '../event';
 import './pauseInfo.scss';
 import Game from '../game';
+import SimpleDom from '../simple-dom';
 
-export default function pauseInfo(): HTMLElement {
-  const pauseInfo = document.createElement('div');
-  pauseInfo.className = 'pause-info';
+export default function pauseInfo(): SimpleDom {
+  const pauseInfo = new SimpleDom('div');
+  pauseInfo.class('pause-info');
 
   $.on('PauseChanged', event => {
     const { oldVal, newVal } = (event as CustomEvent).detail;
-    pauseInfo.innerText = newVal
-      ? 'Press Space to continue the game.'
-      : 'Press Space to pause and do some shopping.'
+    pauseInfo.text(
+      newVal
+        ? 'Press Space to continue the game.'
+        : 'Press Space to pause and do some shopping.'
+    );
   });
 
   // press space key to toggle pause

@@ -1,6 +1,7 @@
 import $ from './event';
 
 type GameState = 'NONE' | 'RUNNING' | 'WIN' | 'LOSE';
+type Inventory = 'BASIC_DECK' | ''
 
 export default class Game {
   private static _instance: Game | undefined = undefined;

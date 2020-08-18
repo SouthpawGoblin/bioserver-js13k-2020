@@ -3,8 +3,8 @@ import header from './blocks/header';
 import Game from './game';
 import pauseInfo from './blocks/pauseInfo';
 
-document.body.appendChild(header());
-document.body.appendChild(pauseInfo());
+document.body.appendChild(header().getDom());
+document.body.appendChild(pauseInfo().getDom());
 
 const testBtn = document.createElement('button');
 testBtn.innerText = 'test';
