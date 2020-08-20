@@ -1,6 +1,6 @@
 import $ from '../event';
 import './pauseInfo.scss';
-import Game from '../game';
+import Game from '../game_old';
 import SimpleDom from '../simple-dom';
 
 export default function pauseInfo(): SimpleDom {

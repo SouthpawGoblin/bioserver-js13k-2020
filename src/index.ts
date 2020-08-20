@@ -1,6 +1,6 @@
 import './index.scss';
 import header from './blocks/header';
-import Game from './game';
+import Game from './game_old';
 import pauseInfo from './blocks/pauseInfo';
 
 document.body.appendChild(header().getDom());

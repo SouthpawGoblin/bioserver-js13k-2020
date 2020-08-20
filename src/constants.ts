@@ -1,23 +1,25 @@
 export const LIKES_NEEDED = 1000;
 
-export interface Card {
+export interface Product {
   id: number;
   name: string;
   value: number;
 }
 
-export interface CardPack {
+export interface ProductBundle {
   id: number;
   name: string;
   price: number;
-  items: Card[];
+  type: 'CARD' | 'MULTIPLIER' | 'STORAGE';
+  items: Product[];
 }
 
-export const CREATURE_PACKS: CardPack[] = [
+export const Products: ProductBundle[] = [
   {
     id: 1,
     name: 'Wild Animals',
     price: 10,
+    type: 'CARD',
     items: [
       {
         id: 1,
@@ -50,6 +52,7 @@ export const CREATURE_PACKS: CardPack[] = [
     id: 2,
     name: 'Legendary Creatures',
     price: 50,
+    type: 'CARD',
     items: [
       {
         id: 6,
@@ -82,6 +85,7 @@ export const CREATURE_PACKS: CardPack[] = [
     id: 3,
     name: 'Unicorn',
     price: 100,
+    type: 'CARD',
     items: [
       {
         id: 11,
@@ -94,6 +98,7 @@ export const CREATURE_PACKS: CardPack[] = [
     id: 4,
     name: 'Dragon',
     price: 200,
+    type: 'CARD',
     items: [
       {
         id: 12,
@@ -101,71 +106,110 @@ export const CREATURE_PACKS: CardPack[] = [
         value: 50,
       },
     ]
-  }
+  },
+  {
+    id: 5,
+    name: 'Colors',
+    price: 30,
+    type: 'MULTIPLIER',
+    items: [
+      {
+        id: 1,
+        name: 'Gray',
+        value: 1,
+      },
+      {
+        id: 2,
+        name: 'White',
+        value: 2,
+      },
+      {
+        id: 3,
+        name: 'Bronze',
+        value: 3,
+      },
+      {
+        id: 4,
+        name: 'Silver',
+        value: 4,
+      },
+      {
+        id: 5,
+        name: 'Golden',
+        value: 5,
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: 'Classes',
+    price: 80,
+    type: 'MULTIPLIER',
+    items: [
+      {
+        id: 1,
+        name: 'Common',
+        value: 1,
+      },
+      {
+        id: 2,
+        name: 'Uncommon',
+        value: 2,
+      },
+      {
+        id: 3,
+        name: 'Rare',
+        value: 3,
+      },
+      {
+        id: 4,
+        name: 'Epic',
+        value: 4,
+      },
+      {
+        id: 5,
+        name: 'Legendary',
+        value: 5,
+      },
+    ],
+  },
+  {
+    id: 7,
+    name: 'Creature Storage',
+    price: 50,
+    type: 'STORAGE',
+    items: [
+      {
+        id: 1,
+        name: 'Creature Storage',
+        value: 1,
+      }
+    ]
+  },
+  {
+    id: 8,
+    name: 'Color Storage',
+    price: 50,
+    type: 'STORAGE',
+    items: [
+      {
+        id: 1,
+        name: 'Color Storage',
+        value: 1,
+      }
+    ]
+  },
+  {
+    id: 9,
+    name: 'Class Storage',
+    price: 50,
+    type: 'STORAGE',
+    items: [
+      {
+        id: 1,
+        name: 'Class Storage',
+        value: 1,
+      }
+    ]
+  },
 ];
-
-export const CLASS_MULTIPLIER_PACK: CardPack = {
-  id: 1,
-  name: 'Classes',
-  price: 30,
-  items: [
-    {
-      id: 1,
-      name: 'Common',
-      value: 1,
-    },
-    {
-      id: 2,
-      name: 'Uncommon',
-      value: 2,
-    },
-    {
-      id: 3,
-      name: 'Rare',
-      value: 3,
-    },
-    {
-      id: 4,
-      name: 'Epic',
-      value: 4,
-    },
-    {
-      id: 5,
-      name: 'Legendary',
-      value: 5,
-    },
-  ]
-};
-
-export const ACTION_MULTIPLIER_PACK: CardPack = {
-  id: 2,
-  name: 'Actions',
-  price: 80,
-  items: [
-    {
-      id: 1,
-      name: 'Sleeping',
-      value: 1,
-    },
-    {
-      id: 2,
-      name: 'Standing',
-      value: 2,
-    },
-    {
-      id: 3,
-      name: 'Dashing',
-      value: 3,
-    },
-    {
-      id: 4,
-      name: 'Talking',
-      value: 4,
-    },
-    {
-      id: 5,
-      name: 'Flying',
-      value: 5,
-    },
-  ],
-};
