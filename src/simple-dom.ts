@@ -1,8 +1,12 @@
 export default class SimpleDom {
   private dom: HTMLElement;
 
-  constructor(elementName: keyof HTMLElementTagNameMap) {
-    this.dom = document.createElement(elementName);
+  constructor(element: keyof HTMLElementTagNameMap | HTMLElement) {
+    if (typeof element === 'string') {
+      this.dom = document.createElement(element);
+    } else {
+      this.dom = element;
+    }
     return this;
   }
 

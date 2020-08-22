@@ -1,18 +1,19 @@
 import './index.scss';
-import header from './blocks/header';
-import Game from './game_old';
-import pauseInfo from './blocks/pauseInfo';
+import Game from './game';
+import Header from './components/Header';
+import PauseInfo from './components/PauseInfo';
 
-document.body.appendChild(header().getDom());
-document.body.appendChild(pauseInfo().getDom());
+Game.add(new Header());
+Game.add(new PauseInfo());
 
 const testBtn = document.createElement('button');
 testBtn.innerText = 'test';
 testBtn.onclick = event => {
-  const game = Game.getInstance();
-  game.likes += 50;
+  Game.setState({
+    ...Game.state!,
+    likes: Game.state!.likes + 50,
+  });
 }
 document.body.appendChild(testBtn);
 
-const game = Game.getInstance();
-game.init();
+Game.start();
