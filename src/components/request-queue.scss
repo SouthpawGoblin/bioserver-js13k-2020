@@ -2,7 +2,23 @@
   margin-top: 5rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   & > div + div {
     margin-left: 3rem;
+  }
+}
+
+.request-card {
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 #bbbbbb;
+  &.last {
+
+  }
+  &.current {
+
+  }
+  &.next {
+
   }
 }

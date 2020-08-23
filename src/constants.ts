@@ -8,8 +8,20 @@ export interface Product {
   value: number;
 }
 
+export enum BUNDLE_INDEX {
+  WILD_ANIMALS = 1,
+  LEGENDARY_CREATURES,
+  UNICORM,
+  DRAGON,
+  COLORS,
+  CLASSES,
+  CREATURE_STORAGE,
+  COLOR_STORAGE,
+  CLASS_STORAGE,
+}
+
 export interface ProductBundle {
-  id: number;
+  id: BUNDLE_INDEX;
   name: string;
   price: number;
   type: 'CARD' | 'MULTIPLIER' | 'STORAGE';
@@ -18,7 +30,7 @@ export interface ProductBundle {
 
 export const Products: ProductBundle[] = [
   {
-    id: 1,
+    id: BUNDLE_INDEX.WILD_ANIMALS,
     name: 'Wild Animals',
     price: 10,
     type: 'CARD',
@@ -51,7 +63,7 @@ export const Products: ProductBundle[] = [
     ]
   },
   {
-    id: 2,
+    id: BUNDLE_INDEX.LEGENDARY_CREATURES,
     name: 'Legendary Creatures',
     price: 50,
     type: 'CARD',
@@ -84,7 +96,7 @@ export const Products: ProductBundle[] = [
     ],
   },
   {
-    id: 3,
+    id: BUNDLE_INDEX.UNICORM,
     name: 'Unicorn',
     price: 100,
     type: 'CARD',
@@ -97,7 +109,7 @@ export const Products: ProductBundle[] = [
     ]
   },
   {
-    id: 4,
+    id: BUNDLE_INDEX.DRAGON,
     name: 'Dragon',
     price: 200,
     type: 'CARD',
@@ -110,7 +122,7 @@ export const Products: ProductBundle[] = [
     ]
   },
   {
-    id: 5,
+    id: BUNDLE_INDEX.COLORS,
     name: 'Colors',
     price: 30,
     type: 'MULTIPLIER',
@@ -143,7 +155,7 @@ export const Products: ProductBundle[] = [
     ],
   },
   {
-    id: 6,
+    id: BUNDLE_INDEX.CLASSES,
     name: 'Classes',
     price: 80,
     type: 'MULTIPLIER',
@@ -176,7 +188,7 @@ export const Products: ProductBundle[] = [
     ],
   },
   {
-    id: 7,
+    id: BUNDLE_INDEX.CREATURE_STORAGE,
     name: 'Creature Storage',
     price: 50,
     type: 'STORAGE',
@@ -189,7 +201,7 @@ export const Products: ProductBundle[] = [
     ]
   },
   {
-    id: 8,
+    id: BUNDLE_INDEX.COLOR_STORAGE,
     name: 'Color Storage',
     price: 50,
     type: 'STORAGE',
@@ -202,7 +214,7 @@ export const Products: ProductBundle[] = [
     ]
   },
   {
-    id: 9,
+    id: BUNDLE_INDEX.CLASS_STORAGE,
     name: 'Class Storage',
     price: 50,
     type: 'STORAGE',

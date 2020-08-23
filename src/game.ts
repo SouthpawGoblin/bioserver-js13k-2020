@@ -1,10 +1,10 @@
-import { ProductBundle, Products, ID_NONE } from "./constants";
+import { ProductBundle, Products, ID_NONE, BUNDLE_INDEX, Product, ID_404 } from "./constants";
 import BasicComponent from "./components/Basic";
 
 export interface Request {
   id: number;
-  reqCardId: number;
-  resCardId: number;
+  reqCreatureId: number;
+  resCreatureId: number;
   reqColorId: number;
   resColorId: number;
   reqClassId: number;
@@ -17,7 +17,7 @@ export interface GameState {
   turnCount: number;
   successCount: number;
   failCount: number;
-  inventory: ProductBundle[];
+  inventory: BUNDLE_INDEX[];
   lastRequest?: Request;
   currentRequest: Request;
   nextRequest: Request;
@@ -38,12 +38,25 @@ export const isChanged = (detail: GameCustomEventDetail, field: keyof GameState)
   }
 }
 
+export const getCardText = (wholeSet: Product[], id: number): string => {
+  if (id === ID_NONE) {
+    return '-';
+  } else if (id === ID_404) {
+    return '404';
+  } else {
+    return wholeSet.find(item => item.id === id)?.name || '';
+  }
+}
+
 const UpdateEvent = document.createEvent('CustomEvent') as GameCustomEvent;
 
 export default class Game {
-  static private requestSequence = 1;
+  private static requestSequence = 1;
   static state: Readonly<GameState> | null = null;
   static children: BasicComponent[] = [];
+  static creatures: Product[] = [];
+  static classes: Product[] = [];
+  static colors: Product[] = [];
 
   static setState(newState: GameState) {
     UpdateEvent.initCustomEvent('Updated', true, false, {
@@ -70,18 +83,38 @@ export default class Game {
   }
 
   static generateRequest(): Request {
-    const allCards = Products
-      .filter(prod => prod.type === 'CARD')
-      .reduce<number[]>((prev, cur) => {
-        return [...prev, ...cur.items.map(item => item.id)]
-      }, []);
-    const cardId = allCards[Math.floor(Math.random() * allCards.length)];
+    const cardId = Game.creatures[Math.floor(Math.random() * Game.creatures.length)].id;
     let classId = ID_NONE;
     let colorId = ID_NONE;
-    if (Game.state?.inventory.includes())
+    if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
+      classId = Math.ceil(Math.random() * Game.classes.length);
+    }
+    if (Game.state?.inventory.includes(BUNDLE_INDEX.COLORS)) {
+      colorId = Math.ceil(Math.random() * Game.colors.length);
+    }
+    return {
+      id: Game.requestSequence++,
+      reqCreatureId: cardId,
+      resCreatureId: ID_NONE,
+      reqClassId: classId,
+      resClassId: ID_NONE,
+      reqColorId: colorId,
+      resColorId: ID_NONE,
+    };
   }
 
   static start() {
+    // init statics
+    Game.creatures = Products
+      .filter(prod => prod.type === 'CARD')
+      .reduce<Product[]>((prev, cur) => {
+        return [...prev, ...cur.items]
+      }, []);
+    Game.classes = Products
+      .find(prod => prod.id === BUNDLE_INDEX.CLASSES)!.items;
+    Game.colors = Products
+      .find(prod => prod.id === BUNDLE_INDEX.COLORS)!.items;
+
     // press space key to toggle pause
     window.addEventListener('keyup', event => {
       if (event.key === ' ') {
@@ -89,6 +122,9 @@ export default class Game {
       }
     });
 
+    // initial state
+    const currentRequest = Game.generateRequest();
+    const nextRequest = Game.generateRequest();
     Game.setState({
       paused: false,
       likes: 0,
@@ -96,7 +132,9 @@ export default class Game {
       successCount: 0,
       failCount: 0,
       inventory: [],
-      lastRequest: 
+      lastRequest: undefined,
+      currentRequest,
+      nextRequest,
     });
   }
 }

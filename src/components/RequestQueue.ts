@@ -1,9 +1,9 @@
 import BasicComponent from "./Basic";
 import './request-queue.scss';
-import LastRequestCard from "./LastRequestCard";
-import CurrentRequestCard from "./CurrentRequestCard";
-import NextRequestCard from "./NextRequestCard";
-import { GameCustomEventDetail, isChanged } from "../game";
+import LastRequestCard from "./request-cards/LastRequestCard";
+import CurrentRequestCard from "./request-cards/CurrentRequestCard";
+import NextRequestCard from "./request-cards/NextRequestCard";
+import { GameCustomEventDetail } from "../game";
 
 export default class RequestQueue extends BasicComponent {
   constructor() {
