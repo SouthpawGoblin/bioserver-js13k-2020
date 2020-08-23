@@ -1,5 +1,15 @@
-import { ProductBundle } from "./constants";
+import { ProductBundle, Products, ID_NONE } from "./constants";
 import BasicComponent from "./components/Basic";
+
+export interface Request {
+  id: number;
+  reqCardId: number;
+  resCardId: number;
+  reqColorId: number;
+  resColorId: number;
+  reqClassId: number;
+  resClassId: number;
+}
 
 export interface GameState {
   paused: boolean;
@@ -8,6 +18,9 @@ export interface GameState {
   successCount: number;
   failCount: number;
   inventory: ProductBundle[];
+  lastRequest?: Request;
+  currentRequest: Request;
+  nextRequest: Request;
 }
 
 export type GameCustomEventDetail = {
@@ -17,7 +30,7 @@ export type GameCustomEventDetail = {
 
 export type GameCustomEvent = CustomEvent<GameCustomEventDetail>;
 
-export const needsUpdate = (detail: GameCustomEventDetail, field: keyof GameState): boolean => {
+export const isChanged = (detail: GameCustomEventDetail, field: keyof GameState): boolean => {
   if (!detail.oldState) {
     return true;
   } else {
@@ -28,6 +41,7 @@ export const needsUpdate = (detail: GameCustomEventDetail, field: keyof GameStat
 const UpdateEvent = document.createEvent('CustomEvent') as GameCustomEvent;
 
 export default class Game {
+  static private requestSequence = 1;
   static state: Readonly<GameState> | null = null;
   static children: BasicComponent[] = [];
 
@@ -55,6 +69,18 @@ export default class Game {
     });
   }
 
+  static generateRequest(): Request {
+    const allCards = Products
+      .filter(prod => prod.type === 'CARD')
+      .reduce<number[]>((prev, cur) => {
+        return [...prev, ...cur.items.map(item => item.id)]
+      }, []);
+    const cardId = allCards[Math.floor(Math.random() * allCards.length)];
+    let classId = ID_NONE;
+    let colorId = ID_NONE;
+    if (Game.state?.inventory.includes())
+  }
+
   static start() {
     // press space key to toggle pause
     window.addEventListener('keyup', event => {
@@ -70,6 +96,7 @@ export default class Game {
       successCount: 0,
       failCount: 0,
       inventory: [],
+      lastRequest: 
     });
   }
 }

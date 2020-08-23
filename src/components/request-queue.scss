@@ -1,0 +1,8 @@
+.request-queue {
+  margin-top: 5rem;
+  display: flex;
+  align-items: center;
+  & > div + div {
+    margin-left: 3rem;
+  }
+}

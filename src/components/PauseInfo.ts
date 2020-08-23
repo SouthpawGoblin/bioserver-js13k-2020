@@ -1,6 +1,6 @@
 import './pause-info.scss';
 import BasicComponent from './Basic';
-import { GameCustomEventDetail, needsUpdate } from '../game';
+import { GameCustomEventDetail, isChanged } from '../game';
 
 export default class PauseInfo extends BasicComponent {
   constructor() {
@@ -9,7 +9,7 @@ export default class PauseInfo extends BasicComponent {
   }
 
   onUpdate(detail: GameCustomEventDetail) {
-    if (needsUpdate(detail, 'paused')) {
+    if (isChanged(detail, 'paused')) {
       this.dom.text(
         detail.newState.paused
           ? 'Press Space to continue the game.'

@@ -1,4 +1,6 @@
 export const LIKES_NEEDED = 1000;
+export const ID_NONE = -1;
+export const ID_404 = 0;
 
 export interface Product {
   id: number;
