@@ -12,6 +12,7 @@ export interface Request {
 }
 
 export interface GameState {
+  timeout: 3000;
   paused: boolean;
   likes: number;
   turnCount: number;
@@ -46,6 +47,10 @@ export const getCardText = (wholeSet: Product[], id: number): string => {
   } else {
     return wholeSet.find(item => item.id === id)?.name || '';
   }
+}
+
+export const getCardClass = (bundleIndex: BUNDLE_INDEX): string => {
+  return Game.state?.inventory.includes(bundleIndex) ? '' : 'hide';
 }
 
 const UpdateEvent = document.createEvent('CustomEvent') as GameCustomEvent;
@@ -126,6 +131,7 @@ export default class Game {
     const currentRequest = Game.generateRequest();
     const nextRequest = Game.generateRequest();
     Game.setState({
+      timeout: 3000,
       paused: false,
       likes: 0,
       turnCount: 1,

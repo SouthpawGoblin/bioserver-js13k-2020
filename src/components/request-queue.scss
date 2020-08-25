@@ -9,9 +9,16 @@
 }
 
 .request-card {
-  padding: 2rem;
+  width: 30rem;
   border-radius: 10px;
-  box-shadow: 0 2px 3px 0 #bbbbbb;
+  box-shadow: 0 2px 5px 0 #bbbbbb;
+  position: relative;
+  .header {
+    border-bottom: 1px solid #dddddd;
+  }
+  .content {
+    padding: 2rem 2rem 3rem 2rem;
+  }
   &.last {
 
   }
@@ -20,5 +27,31 @@
   }
   &.next {
 
+  }
+  .req-row, .res-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    & > .hide {
+      display: none;
+    }
+  }
+  .res-row {
+    margin-top: 1rem;
+  }
+  .current-timer {
+    position: absolute;
+    bottom: 0;
+    height: 1rem;
+    border-bottom-left-radius: 10px;
+    &.green {
+      background: forestgreen;
+    }
+    &.yellow {
+      background: gold;
+    }
+    &.red {
+      background: red;
+    }
   }
 }
