@@ -53,6 +53,21 @@ export const getCardClass = (bundleIndex: BUNDLE_INDEX): string => {
   return Game.state?.inventory.includes(bundleIndex) ? '' : 'hide';
 }
 
+export const calcTurnLikes = (request: Request): number => {
+  if (request.reqCreatureId !== request.resCreatureId) {
+    return request.resCreatureId === ID_404 ? 1 : 0;
+  } else {
+    let likes = Game.creatures.find(card => card.id === request.resCreatureId)!.value;
+    if (request.reqClassId === request.resClassId) {
+      likes *= Game.classes.find(card => card.id === request.resClassId)!.value;
+    }
+    if (request.reqColorId === request.resColorId) {
+      likes *= Game.colors.find(card => card.id === request.resColorId)!.value;
+    }
+    return likes;
+  }
+}
+
 const UpdateEvent = document.createEvent('CustomEvent') as GameCustomEvent;
 
 export default class Game {
@@ -88,7 +103,7 @@ export default class Game {
   }
 
   static generateRequest(): Request {
-    const cardId = Game.creatures[Math.floor(Math.random() * Game.creatures.length)].id;
+    const creatureId = Game.creatures[Math.floor(Math.random() * Game.creatures.length)].id;
     let classId = ID_NONE;
     let colorId = ID_NONE;
     if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
@@ -99,7 +114,7 @@ export default class Game {
     }
     return {
       id: Game.requestSequence++,
-      reqCreatureId: cardId,
+      reqCreatureId: creatureId,
       resCreatureId: ID_NONE,
       reqClassId: classId,
       resClassId: ID_NONE,
@@ -145,13 +160,13 @@ export default class Game {
   }
 
   static nextTurn() {
-    // TODO: 旧状态的结算
-    const success = Game.state!.currentRequest.reqCreatureId === Game.state!.currentRequest.resCreatureId;
+    const deltaLikes = calcTurnLikes(Game.state!.currentRequest);
     Game.setState({
       ...Game.state!,
+      likes: Game.state!.likes + deltaLikes,
       turnCount: Game.state!.turnCount + 1,
-      successCount: Game.state!.successCount + (success ? 1 : 0),
-      failCount: Game.state!.failCount + (success ? 0 : 1),
+      successCount: Game.state!.successCount + (deltaLikes > 0 ? 1 : 0),
+      failCount: Game.state!.failCount + (deltaLikes > 0 ? 0 : 1),
       lastRequest: { ...Game.state!.currentRequest },
       currentRequest: { ...Game.state!.nextRequest },
       nextRequest: Game.generateRequest(),
