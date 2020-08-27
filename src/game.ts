@@ -143,4 +143,18 @@ export default class Game {
       nextRequest,
     });
   }
+
+  static nextTurn() {
+    // TODO: 旧状态的结算
+    const success = Game.state!.currentRequest.reqCreatureId === Game.state!.currentRequest.resCreatureId;
+    Game.setState({
+      ...Game.state!,
+      turnCount: Game.state!.turnCount + 1,
+      successCount: Game.state!.successCount + (success ? 1 : 0),
+      failCount: Game.state!.failCount + (success ? 0 : 1),
+      lastRequest: { ...Game.state!.currentRequest },
+      currentRequest: { ...Game.state!.nextRequest },
+      nextRequest: Game.generateRequest(),
+    });
+  }
 }

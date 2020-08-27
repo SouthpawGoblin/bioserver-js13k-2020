@@ -10,6 +10,11 @@ export default class SimpleDom {
     return this;
   }
 
+  id(id: string) {
+    this.dom.id = id;
+    return this;
+  }
+
   class(classNames: string) {
     this.dom.className = classNames;
     return this;

@@ -18,6 +18,7 @@ export default class BasicComponent {
   }
 
   remove() {
+    this.children.forEach(child => child.remove());
     if (this.parent) {
       this.dom.remove();
       const index = this.parent.children.findIndex(node => node.id === this.id);

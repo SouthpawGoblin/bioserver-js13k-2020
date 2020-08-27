@@ -9,24 +9,40 @@
 }
 
 .request-card {
-  width: 30rem;
+  width: 26rem;
+  height: 12rem;
   border-radius: 10px;
   box-shadow: 0 2px 5px 0 #bbbbbb;
   position: relative;
   .header {
+    padding: 0 2rem;
     border-bottom: 1px solid #dddddd;
+    display: flex;
+    justify-content: space-between;
+    .pending {
+      color: #bbbbbb;
+    }
+    .loading {
+      color: #ffff00;
+    }
+    .error {
+      color: #ff0000;
+    }
+    .success {
+      color: #00ff00;
+    }
   }
   .content {
     padding: 2rem 2rem 3rem 2rem;
   }
   &.last {
-
+    transform: scale(0.8, 0.8);
   }
   &.current {
 
   }
   &.next {
-
+    transform: scale(0.8, 0.8);
   }
   .req-row, .res-row {
     display: flex;

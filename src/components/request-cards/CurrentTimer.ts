@@ -5,14 +5,18 @@ import './current-timer.scss';
 export default class CurrentTimer extends BasicComponent {
   counting: boolean;
   elapsedTime: number;
-  lastTime: number;
+  paused: boolean;
+  animId?: number;
 
+  static lastTime = 0;
+  
   constructor() {
     super('div');
     this.dom.class('current-timer');
-    this.counting = false;
+    this.counting = true;
     this.elapsedTime = 0;
-    this.lastTime = 0;
+    this.paused = false;
+    this.animId = requestAnimationFrame(this.countLoop);
   }
 
   changeColor = (ratio: number) => {
@@ -26,33 +30,32 @@ export default class CurrentTimer extends BasicComponent {
   }
 
   countLoop = (time: number) => {
-    const deltaTime = this.lastTime ? time - this.lastTime : time;
-    this.lastTime = time;
+    const deltaTime = CurrentTimer.lastTime ? time - CurrentTimer.lastTime : time;
+    CurrentTimer.lastTime = time;
     if (this.counting) {
-      this.elapsedTime += deltaTime;
-      const ratio = this.elapsedTime / Game.state!.timeout;
-      this.dom.getDom().style.width = `${ratio * 100}%`;
-      this.changeColor(ratio);
-      if (this.elapsedTime >= Game.state!.timeout) {
-        // timeout, transfer to next turn
-        Game.setState({
-          ...Game.state!,
-          turnCount: Game.state!.turnCount + 1,
-        });
-      } else {
+      if (!this.paused) {
+        this.elapsedTime += deltaTime;
+        const ratio = this.elapsedTime / Game.state!.timeout;
+        this.dom.getDom().style.width = `${ratio * 100}%`;
+        this.changeColor(ratio);
+        if (this.elapsedTime >= Game.state!.timeout) {
+          // timeout, transfer to next turn
+          this.animId && cancelAnimationFrame(this.animId);
+          Game.nextTurn();
+        }
       }
+      this.animId = requestAnimationFrame(this.countLoop);
     }
-    requestAnimationFrame(this.countLoop);
   }
 
   onUpdate(detail: GameCustomEventDetail) {
-    if (isChanged(detail, 'turnCount')) {
-      this.elapsedTime = 0;
-      this.counting = true;
-      requestAnimationFrame(this.countLoop);
-    }
     if (isChanged(detail, 'paused')) {
-      this.counting = !Game.state!.paused;
+      this.paused = Game.state!.paused;
     }
+  }
+
+  remove() {
+    this.counting = false;
+    super.remove();
   }
 }
