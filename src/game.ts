@@ -1,5 +1,6 @@
-import { ProductBundle, Products, ID_NONE, BUNDLE_INDEX, Product, ID_404 } from "./constants";
+import { ProductBundle, PRODUCT_BUNDLES, ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS } from "./constants";
 import BasicComponent from "./components/Basic";
+import BaseCard from "./components/response-cards/BaseCard";
 
 export interface Request {
   id: number;
@@ -22,6 +23,7 @@ export interface GameState {
   lastRequest?: Request;
   currentRequest: Request;
   nextRequest: Request;
+  lastDealedCardId: number;
 }
 
 export type GameCustomEventDetail = {
@@ -37,6 +39,10 @@ export const isChanged = (detail: GameCustomEventDetail, field: keyof GameState)
   } else {
     return JSON.stringify(detail.oldState[field]) !== JSON.stringify(detail.newState[field]);
   }
+}
+
+export const randPoolItem = <T>(pool: T[]) => {
+  return { ...pool[Math.floor(Math.random() * pool.length)] };
 }
 
 export const getCardText = (wholeSet: Product[], id: number): string => {
@@ -57,12 +63,12 @@ export const calcTurnLikes = (request: Request): number => {
   if (request.reqCreatureId !== request.resCreatureId) {
     return request.resCreatureId === ID_404 ? 1 : 0;
   } else {
-    let likes = Game.creatures.find(card => card.id === request.resCreatureId)!.value;
-    if (request.reqClassId === request.resClassId) {
-      likes *= Game.classes.find(card => card.id === request.resClassId)!.value;
+    let likes = CREATURES.find(card => card.id === request.resCreatureId)!.value;
+    if (request.reqClassId !== ID_NONE && request.reqClassId === request.resClassId) {
+      likes *= CLASSES.find(card => card.id === request.resClassId)!.value;
     }
-    if (request.reqColorId === request.resColorId) {
-      likes *= Game.colors.find(card => card.id === request.resColorId)!.value;
+    if (request.reqColorId !== ID_NONE && request.reqColorId === request.resColorId) {
+      likes *= COLORS.find(card => card.id === request.resColorId)!.value;
     }
     return likes;
   }
@@ -74,9 +80,6 @@ export default class Game {
   private static requestSequence = 1;
   static state: Readonly<GameState> | null = null;
   static children: BasicComponent[] = [];
-  static creatures: Product[] = [];
-  static classes: Product[] = [];
-  static colors: Product[] = [];
 
   static setState(newState: GameState) {
     UpdateEvent.initCustomEvent('Updated', true, false, {
@@ -102,15 +105,15 @@ export default class Game {
     });
   }
 
-  static generateRequest(): Request {
-    const creatureId = Game.creatures[Math.floor(Math.random() * Game.creatures.length)].id;
+  static generateRequest(inventory: BUNDLE_INDEX[]): Request {
+    const creatureId = CREATURES.map(c => c.id)[Math.floor(Math.random() * CREATURES.length)];
     let classId = ID_NONE;
     let colorId = ID_NONE;
-    if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
-      classId = Math.ceil(Math.random() * Game.classes.length);
+    if (inventory.includes(BUNDLE_INDEX.CLASSES)) {
+      classId = CLASSES.map(c => c.id)[Math.floor(Math.random() * CLASSES.length)];
     }
-    if (Game.state?.inventory.includes(BUNDLE_INDEX.COLORS)) {
-      colorId = Math.ceil(Math.random() * Game.colors.length);
+    if (inventory.includes(BUNDLE_INDEX.COLORS)) {
+      colorId = COLORS.map(c => c.id)[Math.floor(Math.random() * COLORS.length)];
     }
     return {
       id: Game.requestSequence++,
@@ -124,27 +127,17 @@ export default class Game {
   }
 
   static start() {
-    // init statics
-    Game.creatures = Products
-      .filter(prod => prod.type === 'CARD')
-      .reduce<Product[]>((prev, cur) => {
-        return [...prev, ...cur.items]
-      }, []);
-    Game.classes = Products
-      .find(prod => prod.id === BUNDLE_INDEX.CLASSES)!.items;
-    Game.colors = Products
-      .find(prod => prod.id === BUNDLE_INDEX.COLORS)!.items;
-
     // press space key to toggle pause
     window.addEventListener('keyup', event => {
       if (event.key === ' ') {
         Game.togglePause();
       }
     });
-
+    // initial inventory
+    const inventory = [BUNDLE_INDEX.WILD_ANIMALS, BUNDLE_INDEX.COLORS, BUNDLE_INDEX.CLASSES];
     // initial state
-    const currentRequest = Game.generateRequest();
-    const nextRequest = Game.generateRequest();
+    const currentRequest = Game.generateRequest(inventory);
+    const nextRequest = Game.generateRequest(inventory);
     Game.setState({
       timeout: 3000,
       paused: false,
@@ -152,10 +145,11 @@ export default class Game {
       turnCount: 1,
       successCount: 0,
       failCount: 0,
-      inventory: [],
+      inventory,
       lastRequest: undefined,
       currentRequest,
       nextRequest,
+      lastDealedCardId: ID_NONE,
     });
   }
 
@@ -169,7 +163,32 @@ export default class Game {
       failCount: Game.state!.failCount + (deltaLikes > 0 ? 0 : 1),
       lastRequest: { ...Game.state!.currentRequest },
       currentRequest: { ...Game.state!.nextRequest },
-      nextRequest: Game.generateRequest(),
+      nextRequest: Game.generateRequest(Game.state!.inventory),
     });
+  }
+
+  static dealCard(card: BaseCard) {
+    if (Game.state!.paused) {
+      return;
+    }
+    const newState: GameState = JSON.parse(JSON.stringify(Game.state!));
+    const prod = card.product;
+    if (prod.id === ID_404) {
+      newState.currentRequest.resCreatureId = ID_404;
+      newState.lastDealedCardId = ID_404;
+    } else {
+      newState.lastDealedCardId = card.id;
+      if (prod.type === 'CREATURE') {
+        newState.currentRequest.resCreatureId = prod.id;
+      } else if (prod.type === 'COLOR') {
+        newState.currentRequest.resColorId = prod.id;
+      } else if (prod.type === 'CLASS') {
+        newState.currentRequest.resClassId = prod.id;
+      }
+    }
+    Game.setState(newState);
+    if (newState.currentRequest.resCreatureId !== ID_NONE) {
+      Game.nextTurn();
+    }
   }
 }

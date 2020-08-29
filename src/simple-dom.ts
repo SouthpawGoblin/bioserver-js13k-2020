@@ -30,6 +30,11 @@ export default class SimpleDom {
     return this;
   }
 
+  prepend(ele: SimpleDom) {
+    this.dom.prepend(ele.dom);
+    return this;
+  }
+
   attr(key: string, value: string) {
     this.dom.setAttribute(key, value);
     return this;

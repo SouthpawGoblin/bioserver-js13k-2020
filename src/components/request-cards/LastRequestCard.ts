@@ -1,7 +1,7 @@
 import BasicComponent from "../Basic";
 import Game, { GameCustomEventDetail, getCardText, getCardClass, Request } from "../../game";
 import SimpleDom from "../../simple-dom";
-import { BUNDLE_INDEX, ID_NONE, ID_404 } from "../../constants";
+import { BUNDLE_INDEX, ID_NONE, ID_404, CREATURES, CLASSES, COLORS } from "../../constants";
 
 export default class LastRequestCard extends BasicComponent {
   header: SimpleDom;
@@ -42,12 +42,12 @@ export default class LastRequestCard extends BasicComponent {
     reqRow.append(this.reqColor);
     reqRow.append(this.reqCreature);
     this.reqClass
-      .text(getCardText(Game.classes, req.reqClassId))
+      .text(getCardText(CLASSES, req.reqClassId))
       .class(getCardClass(BUNDLE_INDEX.CLASSES));
     this.reqColor
-      .text(getCardText(Game.colors, req.reqColorId))
+      .text(getCardText(COLORS, req.reqColorId))
       .class(getCardClass(BUNDLE_INDEX.COLORS));
-    this.reqCreature.text(getCardText(Game.creatures, req.reqCreatureId));
+    this.reqCreature.text(getCardText(CREATURES, req.reqCreatureId));
     content.append(reqRow);
     // res row
     const resRow = new SimpleDom('div');
@@ -59,12 +59,12 @@ export default class LastRequestCard extends BasicComponent {
     resRow.append(this.resColor);
     resRow.append(this.resCreature);
     this.resClass
-      .text(getCardText(Game.classes, req.resClassId))
+      .text(getCardText(CLASSES, req.resClassId))
       .class(getCardClass(BUNDLE_INDEX.CLASSES));
     this.resColor
-      .text(getCardText(Game.colors, req.resColorId))
+      .text(getCardText(COLORS, req.resColorId))
       .class(getCardClass(BUNDLE_INDEX.COLORS));
-    this.resCreature.text(getCardText(Game.creatures, req.resCreatureId));
+    this.resCreature.text(getCardText(CREATURES, req.resCreatureId));
     content.append(resRow);
   }
 

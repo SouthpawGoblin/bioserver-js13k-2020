@@ -1,0 +1,27 @@
+.conveyor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+  &.hidden {
+    display: none;
+  }
+  & > * + * {
+    margin-left: 2rem;
+  }
+  & > .conveyor-content {
+    border: 1px solid #dddddd;
+    padding: 1rem;
+    border-radius: 10px;
+    & > .card + .card {
+      margin-left: 1rem;
+    }
+  }
+  & > .conveyor-storage {
+    width: 10rem;
+    height: 6rem;
+    padding: 1rem;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+  }
+}

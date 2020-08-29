@@ -2,7 +2,7 @@ import BasicComponent from "../Basic";
 import Game, { GameCustomEventDetail, isChanged, getCardText, getCardClass, Request } from "../../game";
 import SimpleDom from "../../simple-dom";
 import CurrentTimer from "./CurrentTimer";
-import { BUNDLE_INDEX } from "../../constants";
+import { BUNDLE_INDEX, CREATURES, CLASSES, COLORS } from "../../constants";
 
 export default class CurrentRequestCard extends BasicComponent {
   header: SimpleDom;
@@ -36,15 +36,15 @@ export default class CurrentRequestCard extends BasicComponent {
     const reqRow = new SimpleDom('div');
     reqRow.class('req-row');
     this.reqClass = new SimpleDom('span');
-    this.reqColor = new SimpleDom('span');
-    this.reqCreature = new SimpleDom('span');
     this.reqClass
-      .text(getCardText(Game.classes, req.reqClassId))
+      .text(getCardText(CLASSES, req.reqClassId))
       .class(getCardClass(BUNDLE_INDEX.CLASSES));
+    this.reqColor = new SimpleDom('span');
     this.reqColor
-      .text(getCardText(Game.colors, req.reqColorId))
+      .text(getCardText(COLORS, req.reqColorId))
       .class(getCardClass(BUNDLE_INDEX.COLORS));
-    this.reqCreature.text(getCardText(Game.creatures, req.reqCreatureId));
+    this.reqCreature = new SimpleDom('span');
+    this.reqCreature.text(getCardText(CREATURES, req.reqCreatureId));
     reqRow.append(this.reqClass);
     reqRow.append(this.reqColor);
     reqRow.append(this.reqCreature);
@@ -53,15 +53,15 @@ export default class CurrentRequestCard extends BasicComponent {
     const resRow = new SimpleDom('div');
     resRow.class('res-row');
     this.resClass = new SimpleDom('span');
-    this.resColor = new SimpleDom('span');
-    this.resCreature = new SimpleDom('span');
     this.resClass
-        .text(getCardText(Game.classes, req.resClassId))
+        .text(getCardText(CLASSES, req.resClassId))
         .class(getCardClass(BUNDLE_INDEX.CLASSES));
+    this.resColor = new SimpleDom('span');
     this.resColor
-      .text(getCardText(Game.colors, req.resColorId))
+      .text(getCardText(COLORS, req.resColorId))
       .class(getCardClass(BUNDLE_INDEX.COLORS));
-    this.resCreature.text(getCardText(Game.creatures, req.resCreatureId));
+    this.resCreature = new SimpleDom('span');
+    this.resCreature.text(getCardText(CREATURES, req.resCreatureId));
     resRow.append(this.resClass);
     resRow.append(this.resColor);
     resRow.append(this.resCreature);
@@ -72,18 +72,18 @@ export default class CurrentRequestCard extends BasicComponent {
 
   onUpdate(detail: GameCustomEventDetail) {
     if (isChanged(detail, 'currentRequest')) {
-      const {
-        id,
-        reqClassId,
-        reqColorId,
-        reqCreatureId,
-        resClassId,
-        resColorId,
-        resCreatureId,
-      } = detail.newState.currentRequest;
-    }
-    if (isChanged(detail, 'turnCount')) {
-      
+      if (!detail.oldState) {
+        return;
+      }
+      const oldCR = detail.oldState.currentRequest;
+      const newCR = detail.newState.currentRequest;
+      if (newCR.resClassId !== oldCR.resClassId) {
+        this.resClass.text(getCardText(CLASSES, newCR.resClassId));
+      } else if (newCR.resColorId !== oldCR.resColorId) {
+        this.resColor.text(getCardText(COLORS, newCR.resColorId));
+      } else if (newCR.resCreatureId !== oldCR.resCreatureId) {
+        this.resCreature.text(getCardText(CREATURES, newCR.resCreatureId))
+      }
     }
   }
 }

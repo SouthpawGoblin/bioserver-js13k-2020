@@ -1,7 +1,7 @@
 import BasicComponent from "../Basic";
 import Game, { GameCustomEventDetail, getCardText, getCardClass, Request } from "../../game";
 import SimpleDom from "../../simple-dom";
-import { BUNDLE_INDEX } from "../../constants";
+import { BUNDLE_INDEX, CREATURES, CLASSES, COLORS } from "../../constants";
 
 export default class NextRequestCard extends BasicComponent {
   header: SimpleDom;
@@ -38,12 +38,12 @@ export default class NextRequestCard extends BasicComponent {
     reqRow.append(this.reqColor);
     reqRow.append(this.reqCreature);
     this.reqClass
-      .text(getCardText(Game.classes, req.reqClassId))
+      .text(getCardText(CLASSES, req.reqClassId))
       .class(getCardClass(BUNDLE_INDEX.CLASSES));
     this.reqColor
-      .text(getCardText(Game.colors, req.reqColorId))
+      .text(getCardText(COLORS, req.reqColorId))
       .class(getCardClass(BUNDLE_INDEX.COLORS));
-    this.reqCreature.text(getCardText(Game.creatures, req.reqCreatureId));
+    this.reqCreature.text(getCardText(CREATURES, req.reqCreatureId));
     content.append(reqRow);
   }
 }
