@@ -7,6 +7,11 @@
   box-shadow: 0 2px 5px 0 #bbbbbb;
   cursor: pointer;
   border-radius: 10px;
+  transition: all 1s;
+  &.deal {
+    transform: translate(0, -3rem);
+    opacity: 0;
+  }
 }
 
 .card-404 {

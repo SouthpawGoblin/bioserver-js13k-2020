@@ -17,7 +17,10 @@ export default class BaseCard extends BasicComponent {
     this.dom.text(prod.name);
   }
 
-  onClick(event: MouseEvent) {
-    Game.dealCard(this);
+  onClick = (event: MouseEvent) => {
+    this.dom.class('card deal');
+    setTimeout(() => {
+      Game.dealCard(this);
+    }, 1000)
   }
 }

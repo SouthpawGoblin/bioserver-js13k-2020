@@ -13,7 +13,7 @@ export interface Request {
 }
 
 export interface GameState {
-  timeout: 3000;
+  timeout: number;
   paused: boolean;
   likes: number;
   turnCount: number;
@@ -139,7 +139,7 @@ export default class Game {
     const currentRequest = Game.generateRequest(inventory);
     const nextRequest = Game.generateRequest(inventory);
     Game.setState({
-      timeout: 3000,
+      timeout: 8000,
       paused: false,
       likes: 0,
       turnCount: 1,
