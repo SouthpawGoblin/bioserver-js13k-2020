@@ -4,12 +4,17 @@
   display: inline-block;
   line-height: 4rem;
   text-align: center;
+  opacity: 1;
   box-shadow: 0 2px 5px 0 #bbbbbb;
   cursor: pointer;
   border-radius: 10px;
-  transition: all 1s;
+  transition: all 0.5s;
   &.deal {
     transform: translate(0, -3rem);
+    opacity: 0;
+  }
+  &.init {
+    transform: translate(0, 3rem);
     opacity: 0;
   }
 }
@@ -17,7 +22,8 @@
 .card-404 {
   text-align: center;
   & > .card {
-    width: 10rem;
+    width: 15rem;
     margin-top: 3rem;
+    transform: translate(0, 0);
   }
 }

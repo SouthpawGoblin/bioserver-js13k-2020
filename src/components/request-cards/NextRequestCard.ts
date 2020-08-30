@@ -1,17 +1,26 @@
 import BasicComponent from "../Basic";
-import Game, { GameCustomEventDetail, getCardText, getCardClass, Request } from "../../game";
+import Game, { GameCustomEventDetail, getResText, getResClass, Request } from "../../game";
 import SimpleDom from "../../simple-dom";
 import { BUNDLE_INDEX, CREATURES, CLASSES, COLORS } from "../../constants";
 
 export default class NextRequestCard extends BasicComponent {
   header: SimpleDom;
-  reqClass: SimpleDom;
-  reqColor: SimpleDom;
+  reqClass?: SimpleDom;
+  reqColor?: SimpleDom;
   reqCreature: SimpleDom;
+  resClass?: SimpleDom;
+  resColor?: SimpleDom;
+  resCreature: SimpleDom;
   
   constructor(req: Request) {
     super('div');
     this.dom.class('request-card next');
+    // state text
+    const stateText = new SimpleDom('div');
+    stateText
+      .text('Next Request')
+      .class('state');
+    this.dom.append(stateText);
     // header
     this.header = new SimpleDom('div');
     this.header.class('header');
@@ -28,22 +37,45 @@ export default class NextRequestCard extends BasicComponent {
     const content = new SimpleDom('div');
     content.class('content');
     this.dom.append(content);
-    // req row
-    const reqRow = new SimpleDom('div');
-    reqRow.class('req-row');
-    this.reqClass = new SimpleDom('span');
-    this.reqColor = new SimpleDom('span');
+    // class col
+    if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
+      const classCol = new SimpleDom('div');
+      classCol.class('col');
+      this.reqClass = new SimpleDom('span');
+      this.reqClass.text(getResText(CLASSES, req.reqClassId))
+      this.resClass = new SimpleDom('div');
+      this.resClass
+        .text(getResText(CLASSES, req.resClassId))
+        .class(`res blank`);
+      classCol.append(this.reqClass);
+      classCol.append(this.resClass);
+      content.append(classCol);
+    }
+    // color col
+    if (Game.state?.inventory.includes(BUNDLE_INDEX.COLORS)) {
+      const colorCol = new SimpleDom('div');
+      colorCol.class('col');
+      this.reqColor = new SimpleDom('span');
+      this.reqColor.text(getResText(COLORS, req.reqColorId))
+      this.resColor = new SimpleDom('span');
+      this.resColor
+        .text(getResText(COLORS, req.resColorId))
+        .class(`res blank`);
+      colorCol.append(this.reqColor);
+      colorCol.append(this.resColor);
+      content.append(colorCol);
+    }
+    // creature col
+    const creatureCol = new SimpleDom('div');
+    creatureCol.class('col');
     this.reqCreature = new SimpleDom('span');
-    reqRow.append(this.reqClass);
-    reqRow.append(this.reqColor);
-    reqRow.append(this.reqCreature);
-    this.reqClass
-      .text(getCardText(CLASSES, req.reqClassId))
-      .class(getCardClass(BUNDLE_INDEX.CLASSES));
-    this.reqColor
-      .text(getCardText(COLORS, req.reqColorId))
-      .class(getCardClass(BUNDLE_INDEX.COLORS));
-    this.reqCreature.text(getCardText(CREATURES, req.reqCreatureId));
-    content.append(reqRow);
+    this.reqCreature.text(getResText(CREATURES, req.reqCreatureId));
+    this.resCreature = new SimpleDom('span');
+    this.resCreature
+      .text(getResText(CREATURES, req.resCreatureId))
+      .class('res blank');
+    creatureCol.append(this.reqCreature);
+    creatureCol.append(this.resCreature);
+    content.append(creatureCol);
   }
 }

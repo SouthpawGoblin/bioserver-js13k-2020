@@ -1,7 +1,7 @@
 import BasicComponent from "./Basic";
 import SimpleDom from "../simple-dom";
 import './conveyor.scss';
-import { Product, ALL_PRODUCTS, ID_404, ID_NONE } from "../constants";
+import { Product, ALL_PRODUCTS, ID_404, ID_NONE, DEAL_DELAY } from "../constants";
 import Game, { GameCustomEventDetail, isChanged, randPoolItem } from "../game";
 import BaseCard from "./response-cards/BaseCard";
 
@@ -78,11 +78,13 @@ export default class Conveyor extends BasicComponent {
         if (newResId !== ID_404) {
           const index = this.cards.findIndex(card => card.id === Game.state!.lastDealedCardId);
           if (index >= 0) {
-            const card = this.cards.splice(index, 1);
-            card[0].dom.getDom().remove();
-            const newCard = new BaseCard(randPoolItem(this.pool));
-            this.cards.unshift(newCard);
-            this.container.prepend(newCard.dom);
+            setTimeout(() => {
+              const card = this.cards.splice(index, 1);
+              card[0].dom.getDom().remove();
+              const newCard = new BaseCard(randPoolItem(this.pool));
+              this.cards.unshift(newCard);
+              this.container.prepend(newCard.dom);
+            }, DEAL_DELAY);
           }
         }
       }

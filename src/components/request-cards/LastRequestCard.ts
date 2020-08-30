@@ -1,20 +1,26 @@
 import BasicComponent from "../Basic";
-import Game, { GameCustomEventDetail, getCardText, getCardClass, Request } from "../../game";
+import Game, { GameCustomEventDetail, getResText, getResClass, Request, getResLikes } from "../../game";
 import SimpleDom from "../../simple-dom";
 import { BUNDLE_INDEX, ID_NONE, ID_404, CREATURES, CLASSES, COLORS } from "../../constants";
 
 export default class LastRequestCard extends BasicComponent {
   header: SimpleDom;
-  reqClass: SimpleDom;
-  reqColor: SimpleDom;
+  reqClass?: SimpleDom;
+  reqColor?: SimpleDom;
   reqCreature: SimpleDom;
-  resClass: SimpleDom;
-  resColor: SimpleDom;
+  resClass?: SimpleDom;
+  resColor?: SimpleDom;
   resCreature: SimpleDom;
   
   constructor(req: Request) {
     super('div');
     this.dom.class('request-card last');
+    // state text
+    const stateText = new SimpleDom('div');
+    stateText
+      .text('Last Request')
+      .class('state');
+    this.dom.append(stateText);
     // header
     this.header = new SimpleDom('div');
     this.header.class('header');
@@ -32,40 +38,46 @@ export default class LastRequestCard extends BasicComponent {
     const content = new SimpleDom('div');
     content.class('content');
     this.dom.append(content);
-    // req row
-    const reqRow = new SimpleDom('div');
-    reqRow.class('req-row');
-    this.reqClass = new SimpleDom('span');
-    this.reqColor = new SimpleDom('span');
+    // class col
+    if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
+      const classCol = new SimpleDom('div');
+      classCol.class('col');
+      this.reqClass = new SimpleDom('span');
+      this.reqClass.text(getResText(CLASSES, req.reqClassId))
+      this.resClass = new SimpleDom('div');
+      this.resClass
+        .append(getResLikes(CLASSES, req.reqClassId, req.resClassId, false))
+        .class(req.reqClassId === req.resClassId ? 'res correct' : 'res wrong');
+      classCol.append(this.reqClass);
+      classCol.append(this.resClass);
+      content.append(classCol);
+    }
+    // color col
+    if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
+      const colorCol = new SimpleDom('div');
+      colorCol.class('col');
+      this.reqColor = new SimpleDom('span');
+      this.reqColor.text(getResText(COLORS, req.reqColorId))
+      this.resColor = new SimpleDom('span');
+      this.resColor
+        .append(getResLikes(COLORS, req.reqColorId, req.resColorId, false))
+        .class(req.reqColorId === req.resColorId ? 'res correct' : 'res wrong');
+      colorCol.append(this.reqColor);
+      colorCol.append(this.resColor);
+      content.append(colorCol);
+    }
+    // creature col
+    const creatureCol = new SimpleDom('div');
+    creatureCol.class('col');
     this.reqCreature = new SimpleDom('span');
-    reqRow.append(this.reqClass);
-    reqRow.append(this.reqColor);
-    reqRow.append(this.reqCreature);
-    this.reqClass
-      .text(getCardText(CLASSES, req.reqClassId))
-      .class(getCardClass(BUNDLE_INDEX.CLASSES));
-    this.reqColor
-      .text(getCardText(COLORS, req.reqColorId))
-      .class(getCardClass(BUNDLE_INDEX.COLORS));
-    this.reqCreature.text(getCardText(CREATURES, req.reqCreatureId));
-    content.append(reqRow);
-    // res row
-    const resRow = new SimpleDom('div');
-    resRow.class('res-row');
-    this.resClass = new SimpleDom('span');
-    this.resColor = new SimpleDom('span');
+    this.reqCreature.text(getResText(CREATURES, req.reqCreatureId));
     this.resCreature = new SimpleDom('span');
-    resRow.append(this.resClass);
-    resRow.append(this.resColor);
-    resRow.append(this.resCreature);
-    this.resClass
-      .text(getCardText(CLASSES, req.resClassId))
-      .class(getCardClass(BUNDLE_INDEX.CLASSES));
-    this.resColor
-      .text(getCardText(COLORS, req.resColorId))
-      .class(getCardClass(BUNDLE_INDEX.COLORS));
-    this.resCreature.text(getCardText(CREATURES, req.resCreatureId));
-    content.append(resRow);
+    this.resCreature
+      .append(getResLikes(CREATURES, req.reqCreatureId, req.resCreatureId, true))
+      .class(req.reqCreatureId === req.resCreatureId ? 'res correct' : 'res wrong');
+    creatureCol.append(this.reqCreature);
+    creatureCol.append(this.resCreature);
+    content.append(creatureCol);
   }
 
   getReqStatusAndClass(reqCreatureId: number, resCreatureId: number): {

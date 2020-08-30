@@ -1,7 +1,10 @@
+@import '../index.scss';
+
 .request-queue {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 2rem;
   & > div + div {
     margin-left: 3rem;
   }
@@ -13,46 +16,99 @@
   border-radius: 10px;
   box-shadow: 0 2px 5px 0 #bbbbbb;
   position: relative;
+  transition: all 0.5s;
+  .state {
+    position: absolute;
+    top: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+  }
   .header {
     padding: 0 2rem;
     border-bottom: 1px solid #dddddd;
     display: flex;
     justify-content: space-between;
     .pending {
-      color: #bbbbbb;
+      font-weight: bold;
+      color: $colorGray;
     }
     .loading {
-      color: #ffff00;
+      font-weight: bold;
+      color: $colorBlue;
     }
     .error {
-      color: #ff0000;
+      font-weight: bold;
+      color: $colorRed;
     }
     .success {
-      color: #00ff00;
+      font-weight: bold;
+      color: $colorGreen;
     }
   }
   .content {
     padding: 2rem 2rem 3rem 2rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
   }
   &.last {
     transform: scale(0.8, 0.8);
+    opacity: 1;
+    &.moving {
+      opacity: 0;
+      transition: all 0;
+    }
   }
   &.current {
-
+    &.moving {
+      opacity: 0;
+      transform: scale(0.8, 0.8);
+      transform: translateX(5rem);
+      transition: all 0;
+    }
   }
   &.next {
     transform: scale(0.8, 0.8);
-  }
-  .req-row, .res-row {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    & > .hide {
-      display: none;
+    &.moving {
+      opacity: 0;
+      transform: scale(1, 1);
+      transform: translateX(5rem);
+      transition: all 0;
     }
   }
-  .res-row {
-    margin-top: 1rem;
+  .col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    & > * + * {
+      margin-top: 1rem;
+    }
+    .res {
+      &.blank {
+        box-shadow: none;
+        border: 1px dashed #bbbbbb;
+      }
+      &.correct {
+        border: 0.2rem solid $colorGreen;
+        box-shadow: 0 2px 5px 0 lighten($colorGreen, 30%);
+      }
+      &.wrong {
+        border: 0.2rem solid $colorRed;
+        box-shadow: 0 2px 5px 0 lighten($colorRed, 30%);
+      }
+      & > .like > img {
+        width: 1.2rem;
+      }
+      width: 6rem;
+      height: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 5px 0 #bbbbbb;
+      border-radius: 10rem;
+    }
   }
   .current-timer {
     position: absolute;
@@ -60,13 +116,13 @@
     height: 1rem;
     border-bottom-left-radius: 10px;
     &.green {
-      background: forestgreen;
+      background: $colorGreen;
     }
     &.yellow {
-      background: gold;
+      background: $colorGold;
     }
     &.red {
-      background: red;
+      background: $colorRed;
     }
   }
 }

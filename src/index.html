@@ -6,5 +6,48 @@
 </head>
 <body>
   <noscript>You need to enable JavaScript to run this game.</noscript>
+  <div id="start-splash" class="splash-screen">
+    <div class="dialog start">
+      <h3><strong>Bio-Server</strong></h3>
+      <section>
+        <ul>
+          <li>
+            You are a <strong>Bio-Server Model-0451</strong>.
+          </li>
+          <li>
+            Your job is to response to various <strong>creature assembly requests</strong>.
+          </li>
+          <li>
+            Successful responses will earn you <strong>Likes(<img id="start-like" src="" />)</strong>    
+          </li>
+          <li>
+            You can use <strong>Likes</strong> to buy upgrades to earn more <strong>Likes</strong> more efficiently.
+          </li>
+          <li>
+            Your <strong>goal</strong> is to earn 1000 <strong>Likes</strong> as soon as possible.
+          </li>
+          <li>
+            (Everyone enjoys to be <strong>Liked</strong>, AIs are no exception)
+          </li>
+        </ul>
+      </section>
+      <section>
+        Press <strong>[Enter]</strong> to boot your service.
+      </section>
+    </div>
+  </div>
+  <div id="win-splash" class="splash-screen" style="display: none;">
+    <div class="dialog win">
+      <h3>Goal Achieved</h3>
+      <section>
+        Congratulations Bio-Server Model-0451 !
+        <br>
+        You have earned 1000 Likes in <span id="win-time"></span> seconds.
+      </section>
+      <section>
+        Press [Enter] to reboot your service.
+      </section>
+    </div>
+  </div>
 </body>
 </html>

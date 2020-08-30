@@ -12,8 +12,8 @@ export default class PauseInfo extends BasicComponent {
     if (isChanged(detail, 'paused')) {
       this.dom.text(
         detail.newState.paused
-          ? 'Press Space to continue the game.'
-          : 'Press Space to pause and do some shopping.'
+          ? 'Press [Space] to continue the game.'
+          : 'Press [Space] to pause and go shopping.'
       );
     }
   }

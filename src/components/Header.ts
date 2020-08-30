@@ -2,7 +2,7 @@ import BasicComponent from "./Basic";
 import SimpleDom from "../simple-dom";
 import './header.scss';
 import { LIKES_NEEDED } from "../constants";
-import { GameCustomEventDetail, isChanged } from "../game";
+import { GameCustomEventDetail, isChanged, getLikeDom } from "../game";
 
 export default class Header extends BasicComponent {
   likes: SimpleDom;
@@ -38,7 +38,9 @@ export default class Header extends BasicComponent {
 
   onUpdate(detail: GameCustomEventDetail) {
     if (isChanged(detail, 'likes')) {
-      this.likes.text(`likes: ${detail.newState.likes}/${LIKES_NEEDED}`);
+      this.likes.getDom().children.length && this.likes.getDom().children.item(0)?.remove();
+      this.likes.append(getLikeDom(`: ${detail.newState.likes}/${LIKES_NEEDED}`));
+      // this.likes.text(`likes: ${detail.newState.likes}/${LIKES_NEEDED}`);
     }
     if (isChanged(detail, 'successCount')) {
       this.successCount.text(`success: ${detail.newState.successCount}`);

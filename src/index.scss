@@ -1,3 +1,9 @@
+$colorRed: #df1e1e;
+$colorGreen: #00d358;
+$colorGray: #bbbbbb;
+$colorBlue: #0084ff;
+$colorGold: rgb(255, 215, 0);
+
 * {
   box-sizing: border-box;
   font-family: Roboto, Arial, Helvetica, sans-serif;
@@ -8,7 +14,61 @@ html, body {
   margin: 0;
   padding: 0;
   position: relative;
+  color: #333333;
 }
 html {
   font-size: 1vw;
+}
+.like {
+  display: inline-block;
+  & > img {
+    width: 2rem;
+  }
+}
+
+.splash-screen {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  .dialog {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    text-align: center;
+    border-radius: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3rem;
+    color: #666666;
+    &.start {
+      ul {
+        text-align: left;
+      }
+      border: 2rem solid $colorGold;
+      background-color: lighten($colorGold, 40%);
+      strong {
+        color: darken($colorGold, 10%);
+      }
+    }
+    &.win {
+      border: 2rem solid $colorGreen;
+      background-color: lighten($colorGreen, 50%);
+      strong {
+        color: $colorGreen;
+      }
+    }
+    h3 {
+      font-size: 3rem;
+      margin: 0;
+    }
+    section {
+      font-size: 1.5rem;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import BasicComponent from "../Basic";
 import Game, { GameCustomEventDetail, isChanged } from "../../game";
-import './current-timer.scss';
+import { ID_NONE } from "../../constants";
 
 export default class CurrentTimer extends BasicComponent {
   counting: boolean;
@@ -51,6 +51,14 @@ export default class CurrentTimer extends BasicComponent {
   onUpdate(detail: GameCustomEventDetail) {
     if (isChanged(detail, 'paused')) {
       this.paused = Game.state!.paused;
+    }
+    if (isChanged(detail, 'currentRequest')) {
+      if (detail.newState.currentRequest.resCreatureId !== ID_NONE) {
+        this.paused = true;
+      }
+    }
+    if (isChanged(detail, 'turnCount')) {
+      this.paused = false;
     }
   }
 

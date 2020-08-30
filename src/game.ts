@@ -1,6 +1,8 @@
-import { ProductBundle, PRODUCT_BUNDLES, ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS } from "./constants";
+import { ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS, DEAL_DELAY } from "./constants";
 import BasicComponent from "./components/Basic";
 import BaseCard from "./components/response-cards/BaseCard";
+import SimpleDom from "./simple-dom";
+import likeSvg from './assets/like.svg';
 
 export interface Request {
   id: number;
@@ -45,7 +47,7 @@ export const randPoolItem = <T>(pool: T[]) => {
   return { ...pool[Math.floor(Math.random() * pool.length)] };
 }
 
-export const getCardText = (wholeSet: Product[], id: number): string => {
+export const getResText = (wholeSet: Product[], id: number): string => {
   if (id === ID_NONE) {
     return '-';
   } else if (id === ID_404) {
@@ -55,8 +57,54 @@ export const getCardText = (wholeSet: Product[], id: number): string => {
   }
 }
 
-export const getCardClass = (bundleIndex: BUNDLE_INDEX): string => {
-  return Game.state?.inventory.includes(bundleIndex) ? '' : 'hide';
+export const getResLikes = (wholeSet: Product[], reqId: number, resId: number, isCreature: boolean): SimpleDom => {
+  let likeText = '';
+  const prod = wholeSet.find(item => item.id === resId);
+  if (resId === ID_NONE) {
+    likeText = isCreature ? ': 0' : ' * 1';
+  } else if (resId === ID_404) {
+    likeText = isCreature ? ': 1' : ' * 1';
+  } else if (reqId !== resId) {
+    likeText = isCreature ? ': 0' : ' * 1';
+  } else {
+    likeText = isCreature ? `: ${prod?.value}` : ` * ${prod?.value}`;
+  }
+  return getLikeDom(likeText);
+}
+
+export const getResClass = (reqId: number, resId: number): string => {
+  if (resId === ID_NONE) {
+    return 'res blank';
+  } else if (resId === reqId) {
+    return 'res correct';
+  } else {
+    return 'res wrong';
+  }
+}
+
+export const getDealCardById = (id: number): SimpleDom | null => {
+  if (id === ID_NONE) {
+    const blank = new SimpleDom('div');
+    blank.class('class blank');
+    return blank;
+  } else if (id === ID_404) {
+    const cardComponent = new BaseCard({
+      id: ID_404,
+      name: '404',
+      value: 1,
+      type: 'CREATURE',
+      bundle: BUNDLE_INDEX.WILD_ANIMALS,
+    });
+    return cardComponent.dom;
+  } else {
+    const prod = [...CREATURES, ...COLORS, ...CLASSES].find(p => p.id === id);
+    if (prod) {
+      const cardComponent = new BaseCard(prod);
+      return cardComponent.dom;
+    } else {
+      return null;
+    }
+  }
 }
 
 export const calcTurnLikes = (request: Request): number => {
@@ -72,6 +120,18 @@ export const calcTurnLikes = (request: Request): number => {
     }
     return likes;
   }
+}
+
+export const getLikeDom = (text: string): SimpleDom => {
+  const dom = new SimpleDom('div');
+  dom.class('like');
+  const likeImg = document.createElement('img');
+  likeImg.src = likeSvg;
+  const textDom = document.createElement('span');
+  textDom.innerText = text;
+  dom.getDom().appendChild(likeImg);
+  dom.getDom().appendChild(textDom);
+  return dom;
 }
 
 const UpdateEvent = document.createEvent('CustomEvent') as GameCustomEvent;
@@ -188,7 +248,9 @@ export default class Game {
     }
     Game.setState(newState);
     if (newState.currentRequest.resCreatureId !== ID_NONE) {
-      Game.nextTurn();
+      setTimeout(() => {
+        Game.nextTurn();
+      }, DEAL_DELAY);
     }
   }
 }

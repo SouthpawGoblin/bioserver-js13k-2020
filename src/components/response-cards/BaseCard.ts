@@ -1,5 +1,5 @@
 import BasicComponent from "../Basic";
-import { Product } from "../../constants";
+import { Product, ID_404, DEAL_DELAY } from "../../constants";
 import Game from "../../game";
 
 import './card.scss';
@@ -10,7 +10,10 @@ export default class BaseCard extends BasicComponent {
   constructor(prod: Product) {
     super('div');
     this.product = prod;
-    this.dom.class('card');
+    this.dom.class('card init');
+    setTimeout(() => {
+      this.dom.class('card');
+    }, DEAL_DELAY);
     this.dom.getDom().onclick = (event: MouseEvent) => {
       this.onClick(event);
     }
@@ -18,9 +21,15 @@ export default class BaseCard extends BasicComponent {
   }
 
   onClick = (event: MouseEvent) => {
+    if (Game.state!.paused) {
+      return;
+    }
     this.dom.class('card deal');
-    setTimeout(() => {
-      Game.dealCard(this);
-    }, 1000)
+    Game.dealCard(this);
+    if (this.product.id === ID_404) {
+      setTimeout(() => {
+        this.dom.class('card');
+      }, DEAL_DELAY);
+    }
   }
 }
