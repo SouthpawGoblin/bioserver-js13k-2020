@@ -14,7 +14,7 @@ html, body {
   margin: 0;
   padding: 0;
   position: relative;
-  color: #333333;
+  color: #666666;
 }
 html {
   font-size: 1vw;
@@ -50,10 +50,10 @@ html {
       ul {
         text-align: left;
       }
-      border: 2rem solid $colorGold;
-      background-color: lighten($colorGold, 40%);
+      border: 2rem solid $colorBlue;
+      background-color: lighten($colorBlue, 40%);
       strong {
-        color: darken($colorGold, 10%);
+        color: darken($colorBlue, 10%);
       }
     }
     &.win {

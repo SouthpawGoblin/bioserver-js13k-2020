@@ -30,7 +30,7 @@ export default class CurrentTimer extends BasicComponent {
   }
 
   countLoop = (time: number) => {
-    const deltaTime = CurrentTimer.lastTime ? time - CurrentTimer.lastTime : time;
+    const deltaTime = CurrentTimer.lastTime ? time - CurrentTimer.lastTime : 0;
     CurrentTimer.lastTime = time;
     if (this.counting) {
       if (!this.paused) {

@@ -67,6 +67,24 @@
       transform: translateX(5rem);
       transition: all 0;
     }
+    &::before {
+      content: '>>';
+      color: $colorGreen;
+      font-weight: bold;
+      position: absolute;
+      left: -3.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &::after {
+      content: '>>';
+      color: $colorGreen;
+      font-weight: bold;
+      position: absolute;
+      right: -3.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
   &.next {
     transform: scale(0.8, 0.8);
