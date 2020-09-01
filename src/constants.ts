@@ -28,6 +28,7 @@ export interface ProductBundle {
   id: BUNDLE_INDEX;
   name: string;
   price: number;
+  desc: string;
 }
 
 export const PRODUCT_BUNDLES: ProductBundle[] = [
@@ -35,46 +36,37 @@ export const PRODUCT_BUNDLES: ProductBundle[] = [
     id: BUNDLE_INDEX.WILD_ANIMALS,
     name: 'Wild Animals',
     price: 10,
+    desc: 'Basic deck with ordinary animals',
   },
   {
     id: BUNDLE_INDEX.LEGENDARY_CREATURES,
     name: 'Legendary Creatures',
     price: 50,
+    desc: 'Advanced deck with legendary creatures !',
   },
   {
     id: BUNDLE_INDEX.UNICORM,
     name: 'Unicorn',
     price: 100,
+    desc: 'Premium Unicorn card !',
   },
   {
     id: BUNDLE_INDEX.DRAGON,
     name: 'Dragon',
     price: 200,
+    desc: 'Supreme Dragon card !!',
   },
   {
     id: BUNDLE_INDEX.COLORS,
     name: 'Colors',
     price: 30,
+    desc: 'Color cards to decorate a creature and multiply the Likes of the creature',
   },
   {
     id: BUNDLE_INDEX.CLASSES,
     name: 'Classes',
     price: 80,
-  },
-  {
-    id: BUNDLE_INDEX.CREATURE_STORAGE,
-    name: 'Creature Storage',
-    price: 50,
-  },
-  {
-    id: BUNDLE_INDEX.COLOR_STORAGE,
-    name: 'Color Storage',
-    price: 50,
-  },
-  {
-    id: BUNDLE_INDEX.CLASS_STORAGE,
-    name: 'Class Storage',
-    price: 50,
+    desc: 'Class cards to decorate a creature and multiply the Likes of the creature',
   },
 ];
 
