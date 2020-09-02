@@ -1,4 +1,4 @@
-import { ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS, DEAL_DELAY } from "./constants";
+import { ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS, DEAL_DELAY, PRODUCT_BUNDLES } from "./constants";
 import BasicComponent from "./components/Basic";
 import BaseCard from "./components/response-cards/BaseCard";
 import SimpleDom from "./simple-dom";
@@ -251,6 +251,19 @@ export default class Game {
       setTimeout(() => {
         Game.nextTurn();
       }, DEAL_DELAY);
+    }
+  }
+
+  static buyBundle(id: number) {
+    const bundle = PRODUCT_BUNDLES.find(bun => bun.id === id)!
+    if (Game.state!.likes < bundle.price) {
+      throw new Error('Insufficient Likes')
+    } else {
+      Game.setState({
+        ...Game.state!,
+        likes: Game.state!.likes - bundle.price,
+        inventory: [...Game.state!.inventory, id],
+      })
     }
   }
 }
