@@ -13,7 +13,8 @@ export default class Store extends BasicComponent {
     header.text('Expansion Packs & Multipliers for Sale !')
     this.dom.append(header)
     // expansion packs
-    // TODO:
+    const packRow = new SimpleDom('div')
+    
   }
 
   onUpdate(detail: GameCustomEventDetail) {
