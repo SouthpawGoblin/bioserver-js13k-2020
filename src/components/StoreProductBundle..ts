@@ -2,6 +2,7 @@ import BasicComponent from "./Basic";
 import { ProductBundle } from "../constants";
 import SimpleDom from "../simple-dom";
 import Game, { getLikeDom, GameCustomEventDetail, isChanged } from "../game";
+import './store-product-bundle.scss';
 
 export default class StoreProductBundle extends BasicComponent {
   bundle: ProductBundle
@@ -26,7 +27,7 @@ export default class StoreProductBundle extends BasicComponent {
     cost
       .class('cost')
       .text('Cost: ')
-    cost.append(getLikeDom(String(bundle.price)))
+    cost.append(getLikeDom(String(bundle.price), 1, true))
     this.dom.append(cost)
     // click event
     this.dom.getDom().addEventListener('click', () => {

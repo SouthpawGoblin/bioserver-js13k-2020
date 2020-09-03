@@ -12,4 +12,13 @@
   &.hide {
     transform: translateY(100%);
   }
+  & > .header {
+    font-weight: bold;
+    border-bottom: 1px solid #bbbbbb;
+  }
+}
+
+.store-row {
+  display: flex;
+  padding: 2rem 2rem 0 2rem;
 }

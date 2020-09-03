@@ -122,15 +122,23 @@ export const calcTurnLikes = (request: Request): number => {
   }
 }
 
-export const getLikeDom = (text: string): SimpleDom => {
+export const getLikeDom = (text: string, size?: number, swap?: boolean): SimpleDom => {
   const dom = new SimpleDom('div');
   dom.class('like');
   const likeImg = document.createElement('img');
   likeImg.src = likeSvg;
+  if (size) {
+    likeImg.style.width = `${size}rem`;
+  }
   const textDom = document.createElement('span');
   textDom.innerText = text;
-  dom.getDom().appendChild(likeImg);
-  dom.getDom().appendChild(textDom);
+  if (swap) {
+    dom.getDom().appendChild(textDom);
+    dom.getDom().appendChild(likeImg);
+  } else {
+    dom.getDom().appendChild(likeImg);
+    dom.getDom().appendChild(textDom);
+  }
   return dom;
 }
 
@@ -194,7 +202,7 @@ export default class Game {
       }
     });
     // initial inventory
-    const inventory = [BUNDLE_INDEX.WILD_ANIMALS, BUNDLE_INDEX.COLORS, BUNDLE_INDEX.CLASSES];
+    const inventory = [BUNDLE_INDEX.WILD_ANIMALS];
     // initial state
     const currentRequest = Game.generateRequest(inventory);
     const nextRequest = Game.generateRequest(inventory);

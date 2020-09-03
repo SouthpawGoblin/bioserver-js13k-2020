@@ -1,3 +1,53 @@
+@import '../index.scss';
+
 .store-product-bundle {
-  
+  border: 1px solid #bbbbbb;
+  box-shadow: 0 2px 5px 0 #bbbbbb;
+  cursor: pointer;
+  width: 12rem;
+  height: 9rem;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  &:first-child {
+    margin-left: 0;
+  }
+  &.sold {
+    box-shadow: none;
+    color: #aaaaaa !important;
+    cursor: default;
+    &::after {
+      content: 'SOLD';
+      font-weight: bold;
+      position: absolute;
+      bottom: 1rem;
+      right: 0.5rem;
+      color: $colorGreen;
+      border: 0.2rem solid $colorGreen;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      transform: rotateZ(30deg);
+    }
+  }
+  & > .title {
+    text-align: center;
+    font-weight: bold;
+    line-height: 2rem;
+    border-bottom: 1px solid #bbbbbb;
+  }
+  & > .desc {
+    text-align: left;
+    color: #888888;
+    padding: 0.5rem;
+    flex: auto;
+  }
+  & > .cost {
+    text-align: center;
+    border-top: 1px solid #bbbbbb;
+    padding: 0.2rem 0;
+    &.red {
+      color: $colorRed;
+    }
+  }
 }

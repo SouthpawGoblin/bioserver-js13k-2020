@@ -23,7 +23,7 @@ export default class Store extends BasicComponent {
     // multiplier packs
     const multiRow = new StoreRow()
     PRODUCT_BUNDLES.filter(bun => bun.type === 'MULTIPLIER').forEach(bun => {
-      packRow.add(new StoreProductBundle(bun))
+      multiRow.add(new StoreProductBundle(bun))
     })
     this.add(multiRow)
   }
