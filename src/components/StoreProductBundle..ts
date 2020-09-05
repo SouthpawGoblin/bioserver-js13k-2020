@@ -3,6 +3,7 @@ import { ProductBundle } from "../constants";
 import SimpleDom from "../simple-dom";
 import Game, { getLikeDom, GameCustomEventDetail, isChanged } from "../game";
 import './store-product-bundle.scss';
+import ProductBundleDetail from "./ProductBundleDetail";
 
 export default class StoreProductBundle extends BasicComponent {
   bundle: ProductBundle
@@ -29,6 +30,8 @@ export default class StoreProductBundle extends BasicComponent {
       .text('Cost: ')
     cost.append(getLikeDom(String(bundle.price), 1, true))
     this.dom.append(cost)
+    // bundle detail
+    this.add(new ProductBundleDetail(bundle))
     // click event
     this.dom.getDom().addEventListener('click', () => {
       let timeoutId = -1
@@ -41,6 +44,13 @@ export default class StoreProductBundle extends BasicComponent {
           setTimeout(() => cost.class('cost'), 500)
         }
       }
+    })
+    // hover event
+    this.dom.getDom().addEventListener('mouseenter', () => {
+      this.children.forEach(child => child.dom.class('bundle-detail show'))
+    })
+    this.dom.getDom().addEventListener('mouseleave', () => {
+      this.children.forEach(child => child.dom.class('bundle-detail'))
     })
   }
 

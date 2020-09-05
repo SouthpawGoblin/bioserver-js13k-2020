@@ -16,12 +16,28 @@ export default class Store extends BasicComponent {
     this.dom.append(header)
     // expansion packs
     const packRow = new StoreRow()
+    const packRowHeader = new SimpleDom('div')
+    packRowHeader.class('row-header')
+    const packRowName = new SimpleDom('div')
+    packRowName.text('Expansion Packs:').class('row-name')
+    const packRowDesc = new SimpleDom('div')
+    packRowDesc.text('"more creature cards with higher value of Likes"').class('row-desc')
+    packRowHeader.append(packRowName).append(packRowDesc)
+    packRow.dom.append(packRowHeader)
     PRODUCT_BUNDLES.filter(bun => bun.type === 'CARD_PACK').forEach(bun => {
       packRow.add(new StoreProductBundle(bun))
     })
     this.add(packRow)
     // multiplier packs
     const multiRow = new StoreRow()
+    const multiRowHeader = new SimpleDom('div')
+    multiRowHeader.class('row-header')
+    const multiRowName = new SimpleDom('div')
+    multiRowName.text('Multipliers:').class('row-name')
+    const multiRowDesc = new SimpleDom('div')
+    multiRowDesc.text('"card decorations to multiply card\'s value of Likes"').class('row-desc')
+    multiRowHeader.append(multiRowName).append(multiRowDesc)
+    multiRow.dom.append(multiRowHeader)
     PRODUCT_BUNDLES.filter(bun => bun.type === 'MULTIPLIER').forEach(bun => {
       multiRow.add(new StoreProductBundle(bun))
     })

@@ -90,11 +90,11 @@ export default class CurrentRequestCard extends BasicComponent {
       const oldCR = detail.oldState.currentRequest;
       const newCR = detail.newState.currentRequest;
       if (newCR.resClassId !== oldCR.resClassId) {
-        this.resClass!
+        this.resClass && this.resClass
           .text(getResText(CLASSES, newCR.resClassId))
           .class(getResClass(newCR.reqClassId, newCR.resClassId));
       } else if (newCR.resColorId !== oldCR.resColorId) {
-        this.resColor!
+        this.resColor && this.resColor
           .text(getResText(COLORS, newCR.resColorId))
           .class(getResClass(newCR.reqColorId, newCR.resColorId));
       } else if (newCR.resCreatureId !== oldCR.resCreatureId) {

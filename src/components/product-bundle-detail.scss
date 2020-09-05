@@ -1,0 +1,19 @@
+.bundle-detail {
+  position: absolute;
+  bottom: 10rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px 0 #bbbbbb;
+  border: 1px solid #bbbbbb;
+  border-radius: 10px;
+  padding: 1rem;
+  display: none;
+  &.show {
+    display: flex;
+  }
+  & > .card + .card {
+    margin-left: 1rem;
+  }
+}

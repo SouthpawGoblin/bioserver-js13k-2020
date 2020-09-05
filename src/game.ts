@@ -1,4 +1,4 @@
-import { ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS, DEAL_DELAY, PRODUCT_BUNDLES } from "./constants";
+import { ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS, TURN_DELAY, PRODUCT_BUNDLES } from "./constants";
 import BasicComponent from "./components/Basic";
 import BaseCard from "./components/response-cards/BaseCard";
 import SimpleDom from "./simple-dom";
@@ -209,7 +209,7 @@ export default class Game {
     Game.setState({
       timeout: 8000,
       paused: false,
-      likes: 0,
+      likes: 999,
       turnCount: 1,
       successCount: 0,
       failCount: 0,
@@ -258,7 +258,7 @@ export default class Game {
     if (newState.currentRequest.resCreatureId !== ID_NONE) {
       setTimeout(() => {
         Game.nextTurn();
-      }, DEAL_DELAY);
+      }, TURN_DELAY);
     }
   }
 

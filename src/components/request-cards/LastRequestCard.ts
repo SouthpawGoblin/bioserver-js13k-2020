@@ -53,7 +53,7 @@ export default class LastRequestCard extends BasicComponent {
       content.append(classCol);
     }
     // color col
-    if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
+    if (Game.state?.inventory.includes(BUNDLE_INDEX.COLORS)) {
       const colorCol = new SimpleDom('div');
       colorCol.class('col');
       this.reqColor = new SimpleDom('span');

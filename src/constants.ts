@@ -22,7 +22,7 @@ export enum BUNDLE_INDEX {
   CLASS_STORAGE,
 }
 
-export const DEAL_DELAY = 500;
+export const TURN_DELAY = 500;
 
 export interface ProductBundle {
   id: BUNDLE_INDEX;

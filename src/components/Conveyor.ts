@@ -1,7 +1,7 @@
 import BasicComponent from "./Basic";
 import SimpleDom from "../simple-dom";
 import './conveyor.scss';
-import { Product, ALL_PRODUCTS, ID_404, ID_NONE, DEAL_DELAY } from "../constants";
+import { Product, ALL_PRODUCTS, ID_404, ID_NONE, TURN_DELAY } from "../constants";
 import Game, { GameCustomEventDetail, isChanged, randPoolItem } from "../game";
 import BaseCard from "./response-cards/BaseCard";
 
@@ -84,7 +84,7 @@ export default class Conveyor extends BasicComponent {
               const newCard = new BaseCard(randPoolItem(this.pool));
               this.cards.unshift(newCard);
               this.container.prepend(newCard.dom);
-            }, DEAL_DELAY);
+            }, TURN_DELAY);
           }
         }
       }

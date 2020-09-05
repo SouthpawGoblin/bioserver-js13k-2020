@@ -1,8 +1,7 @@
 .card {
   width: 8rem;
-  height: 4rem;
-  display: inline-block;
-  line-height: 4rem;
+  display: inline-flex;
+  line-height: 1.5rem;
   text-align: center;
   opacity: 1;
   box-shadow: 0 2px 5px 0 #bbbbbb;
@@ -10,6 +9,8 @@
   cursor: pointer;
   border-radius: 10px;
   transition: all 0.5s;
+  flex-direction: column;
+  padding: 0.5rem 0;
   &.deal {
     transform: translate(0, -3rem);
     opacity: 0;
@@ -17,6 +18,10 @@
   &.init {
     transform: translate(0, 3rem);
     opacity: 0;
+  }
+  & > .name {
+    font-size: 1.2rem;
+    font-weight: bold;
   }
 }
 

@@ -1,8 +1,9 @@
 import BasicComponent from "../Basic";
-import { Product, ID_404, DEAL_DELAY } from "../../constants";
-import Game from "../../game";
+import { Product, ID_404, TURN_DELAY, PRODUCT_BUNDLES } from "../../constants";
+import Game, { getLikeDom } from "../../game";
 
 import './card.scss';
+import SimpleDom from "../../simple-dom";
 
 export default class BaseCard extends BasicComponent {
   product: Product;
@@ -13,11 +14,16 @@ export default class BaseCard extends BasicComponent {
     this.dom.class('card init');
     setTimeout(() => {
       this.dom.class('card');
-    }, DEAL_DELAY);
-    this.dom.getDom().onclick = (event: MouseEvent) => {
+    }, TURN_DELAY);
+    this.dom.getDom().addEventListener('click', (event: MouseEvent) => {
       this.onClick(event);
-    }
-    this.dom.text(prod.name);
+    })
+    const name = new SimpleDom('div')
+    name.text(prod.name).class('name')
+    this.dom.append(name)
+    const bundle = PRODUCT_BUNDLES.find(bun => bun.id === prod.bundle)
+    const seperator = bundle ? (bundle.type === 'CARD_PACK' ? ' : ' : ' * ') : ''
+    this.dom.append(getLikeDom(`${seperator}${prod.value}`, 1))
   }
 
   onClick = (event: MouseEvent) => {
@@ -29,7 +35,7 @@ export default class BaseCard extends BasicComponent {
     if (this.product.id === ID_404) {
       setTimeout(() => {
         this.dom.class('card');
-      }, DEAL_DELAY);
+      }, TURN_DELAY);
     }
   }
 }
