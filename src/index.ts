@@ -21,7 +21,7 @@ const handleStart = (event: KeyboardEvent) => {
     Game.add(new Card404());
     Game.add(new Conveyor('CLASS', 4));
     Game.add(new Conveyor('COLOR', 4));
-    Game.add(new Conveyor('CREATURE', 4));
+    Game.add(new Conveyor('CREATURE', 5));
     Game.add(new Store());
     Game.start();
   }

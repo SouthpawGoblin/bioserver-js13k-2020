@@ -41,6 +41,7 @@ export default class CurrentTimer extends BasicComponent {
         if (this.elapsedTime >= Game.state!.timeout) {
           // timeout, transfer to next turn
           this.animId && cancelAnimationFrame(this.animId);
+          this.counting = false
           Game.nextTurn();
         }
       }

@@ -142,6 +142,25 @@ export const getLikeDom = (text: string, size?: number, swap?: boolean): SimpleD
   return dom;
 }
 
+export const showTurnResult = (likes: number) => {
+  const result = new SimpleDom('div')
+  result.append(getLikeDom(` +${likes}`))
+  const classes = ['turn-result']
+  if (likes <= 0) {
+    classes.push('fail')
+  } else if (likes < 30) {
+    classes.push('success')
+  } else {
+    classes.push('big-success')
+  }
+  result.class(classes.join(' '))
+  setTimeout(() => {
+    result.class(classes.join(' ') + ' animate')
+  }, TURN_DELAY)
+  const resultDom = result.getDom()
+  document.body.appendChild(resultDom)
+}
+
 const UpdateEvent = document.createEvent('CustomEvent') as GameCustomEvent;
 
 export default class Game {
@@ -223,16 +242,19 @@ export default class Game {
 
   static nextTurn() {
     const deltaLikes = calcTurnLikes(Game.state!.currentRequest);
-    Game.setState({
-      ...Game.state!,
-      likes: Game.state!.likes + deltaLikes,
-      turnCount: Game.state!.turnCount + 1,
-      successCount: Game.state!.successCount + (deltaLikes > 0 ? 1 : 0),
-      failCount: Game.state!.failCount + (deltaLikes > 0 ? 0 : 1),
-      lastRequest: { ...Game.state!.currentRequest },
-      currentRequest: { ...Game.state!.nextRequest },
-      nextRequest: Game.generateRequest(Game.state!.inventory),
-    });
+    showTurnResult(deltaLikes)
+    setTimeout(() => {
+      Game.setState({
+        ...Game.state!,
+        likes: Game.state!.likes + deltaLikes,
+        turnCount: Game.state!.turnCount + 1,
+        successCount: Game.state!.successCount + (deltaLikes > 0 ? 1 : 0),
+        failCount: Game.state!.failCount + (deltaLikes > 0 ? 0 : 1),
+        lastRequest: { ...Game.state!.currentRequest },
+        currentRequest: { ...Game.state!.nextRequest },
+        nextRequest: Game.generateRequest(Game.state!.inventory),
+      });
+    }, TURN_DELAY)
   }
 
   static dealCard(card: BaseCard) {
@@ -256,9 +278,7 @@ export default class Game {
     }
     Game.setState(newState);
     if (newState.currentRequest.resCreatureId !== ID_NONE) {
-      setTimeout(() => {
-        Game.nextTurn();
-      }, TURN_DELAY);
+      Game.nextTurn();
     }
   }
 

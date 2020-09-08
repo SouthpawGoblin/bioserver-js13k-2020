@@ -25,6 +25,37 @@ html {
     width: 2rem;
   }
 }
+.turn-result {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 100%;
+  position: fixed;
+  top: 12rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s ease-out;
+  background: #ffffff;
+  font-size: 2rem;
+  &.fail {
+    border: 1rem solid $colorRed;
+    box-shadow: 0 0 0.5rem 0.5rem $colorRed;
+  }
+  &.success {
+    border: 1rem solid $colorGreen;
+    box-shadow: 0 0 0.5rem 0.5rem $colorGreen;
+  }
+  &.big-success {
+    border: 1rem solid $colorGreen;
+    box-shadow: 0 0 1rem 1rem $colorGold;
+  }
+  &.animate {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+}
 
 .splash-screen {
   position: fixed;
