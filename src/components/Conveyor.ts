@@ -19,22 +19,19 @@ export default class Conveyor extends BasicComponent {
     this.dom.class('conveyor hidden');
     this.type = type;
     this.capacity = capacity;
+    const content = new SimpleDom('div');
+    content.class('conveyor-content');
     const title = new SimpleDom('div');
     title.class('conveyor-title');
     title.text(
       type === 'CREATURE'
-        ? 'Creature' : type === 'COLOR'
-        ? 'Color' : type === 'CLASS'
-        ? 'Class' : ''
+        ? 'Creatures' : type === 'COLOR'
+        ? 'Colors' : type === 'CLASS'
+        ? 'Classes' : ''
     );
-    this.dom.append(title);
-    const content = new SimpleDom('div');
-    content.class('conveyor-content');
+    content.append(title);
     this.container = content;
     this.dom.append(content);
-    const storage = new SimpleDom('div');
-    storage.class('conveyor-storage');
-    this.dom.append(storage);
   }
 
   onUpdate(detail: GameCustomEventDetail) {

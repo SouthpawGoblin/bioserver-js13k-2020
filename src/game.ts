@@ -1,4 +1,4 @@
-import { ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS, TURN_DELAY, PRODUCT_BUNDLES } from "./constants";
+import { ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS, TURN_DELAY, PRODUCT_BUNDLES, DEFAULT_TIMEOUT } from "./constants";
 import BasicComponent from "./components/Basic";
 import BaseCard from "./components/response-cards/BaseCard";
 import SimpleDom from "./simple-dom";
@@ -12,10 +12,10 @@ export interface Request {
   resColorId: number;
   reqClassId: number;
   resClassId: number;
+  timeout: number;
 }
 
 export interface GameState {
-  timeout: number;
   paused: boolean;
   likes: number;
   turnCount: number;
@@ -192,8 +192,11 @@ export default class Game {
     });
   }
 
-  static generateRequest(inventory: BUNDLE_INDEX[]): Request {
-    const creatureId = CREATURES.map(c => c.id)[Math.floor(Math.random() * CREATURES.length)];
+  static generateRequest(inventory: BUNDLE_INDEX[], timeout: number=DEFAULT_TIMEOUT): Request {
+    const creatureIds = CREATURES
+      .filter(c => inventory.includes(c.bundle))
+      .map(c => c.id);
+    const creatureId = creatureIds[Math.floor(Math.random() * creatureIds.length)];
     let classId = ID_NONE;
     let colorId = ID_NONE;
     if (inventory.includes(BUNDLE_INDEX.CLASSES)) {
@@ -210,6 +213,7 @@ export default class Game {
       resClassId: ID_NONE,
       reqColorId: colorId,
       resColorId: ID_NONE,
+      timeout,
     };
   }
 
@@ -226,7 +230,6 @@ export default class Game {
     const currentRequest = Game.generateRequest(inventory);
     const nextRequest = Game.generateRequest(inventory);
     Game.setState({
-      timeout: 8000,
       paused: false,
       likes: 999,
       turnCount: 1,

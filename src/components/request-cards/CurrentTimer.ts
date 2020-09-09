@@ -3,6 +3,7 @@ import Game, { GameCustomEventDetail, isChanged } from "../../game";
 import { ID_NONE } from "../../constants";
 
 export default class CurrentTimer extends BasicComponent {
+  timeout: number;
   counting: boolean;
   elapsedTime: number;
   paused: boolean;
@@ -10,9 +11,10 @@ export default class CurrentTimer extends BasicComponent {
 
   static lastTime = 0;
   
-  constructor() {
+  constructor(timeout: number) {
     super('div');
     this.dom.class('current-timer');
+    this.timeout = timeout;
     this.counting = true;
     this.elapsedTime = 0;
     this.paused = false;
@@ -35,10 +37,10 @@ export default class CurrentTimer extends BasicComponent {
     if (this.counting) {
       if (!this.paused) {
         this.elapsedTime += deltaTime;
-        const ratio = this.elapsedTime / Game.state!.timeout;
+        const ratio = this.elapsedTime / this.timeout;
         this.dom.getDom().style.width = `${ratio * 100}%`;
         this.changeColor(ratio);
-        if (this.elapsedTime >= Game.state!.timeout) {
+        if (this.elapsedTime >= this.timeout) {
           // timeout, transfer to next turn
           this.animId && cancelAnimationFrame(this.animId);
           this.counting = false

@@ -1,6 +1,8 @@
 export const LIKES_NEEDED = 1000;
 export const ID_NONE = -1;
 export const ID_404 = 0;
+export const TURN_DELAY = 500;
+export const DEFAULT_TIMEOUT = 8000;
 
 export interface Product {
   id: number;
@@ -21,8 +23,6 @@ export enum BUNDLE_INDEX {
   COLOR_STORAGE,
   CLASS_STORAGE,
 }
-
-export const TURN_DELAY = 500;
 
 export interface ProductBundle {
   id: BUNDLE_INDEX;
@@ -168,35 +168,35 @@ export const COLORS: Product[] = [
   {
     id: 13,
     name: 'Gray',
-    value: 1,
+    value: 2,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
   },
   {
     id: 14,
     name: 'White',
-    value: 2,
+    value: 3,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
   },
   {
     id: 15,
     name: 'Bronze',
-    value: 3,
+    value: 4,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
   },
   {
     id: 16,
     name: 'Silver',
-    value: 4,
+    value: 5,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
   },
   {
     id: 17,
     name: 'Golden',
-    value: 5,
+    value: 6,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
   },
@@ -206,67 +206,42 @@ export const CLASSES: Product[] = [
   {
     id: 18,
     name: 'Common',
-    value: 1,
+    value: 2,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
   },
   {
     id: 19,
     name: 'Uncommon',
-    value: 2,
+    value: 3,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
   },
   {
     id: 20,
     name: 'Rare',
-    value: 3,
+    value: 4,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
   },
   {
     id: 21,
     name: 'Epic',
-    value: 4,
+    value: 5,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
   },
   {
     id: 22,
     name: 'Legendary',
-    value: 5,
+    value: 6,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
   },
-];
-
-export const STORAGES: Product[] = [
-  {
-    id: 23,
-    name: 'Creature Storage',
-    value: 1,
-    type: 'STORAGE',
-    bundle: BUNDLE_INDEX.CREATURE_STORAGE,
-  },
-  {
-    id: 24,
-    name: 'Color Storage',
-    value: 1,
-    type: 'STORAGE',
-    bundle: BUNDLE_INDEX.COLOR_STORAGE,
-  },
-  {
-    id: 25,
-    name: 'Class Storage',
-    value: 1,
-    type: 'STORAGE',
-    bundle: BUNDLE_INDEX.CLASS_STORAGE,
-  }
 ];
 
 export const ALL_PRODUCTS: Product[] = [
   ...CREATURES,
   ...COLORS,
   ...CLASSES,
-  ...STORAGES,
 ];

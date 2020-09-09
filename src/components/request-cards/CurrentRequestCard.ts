@@ -79,7 +79,8 @@ export default class CurrentRequestCard extends BasicComponent {
     creatureCol.append(this.resCreature);
     content.append(creatureCol);
     // timer
-    this.add(new CurrentTimer());
+    // first ten requests have no time limit
+    (req.id > 10 && req.timeout > 0) && this.add(new CurrentTimer(req.timeout));
   }
 
   onUpdate(detail: GameCustomEventDetail) {
