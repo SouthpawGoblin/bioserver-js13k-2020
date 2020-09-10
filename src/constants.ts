@@ -10,6 +10,7 @@ export interface Product {
   value: number;
   type: 'CREATURE' | 'COLOR' | 'CLASS' | 'STORAGE';
   bundle: BUNDLE_INDEX;
+  color?: string;
 }
 
 export enum BUNDLE_INDEX {
@@ -171,6 +172,7 @@ export const COLORS: Product[] = [
     value: 2,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
+    color: '#c7c7c7',
   },
   {
     id: 14,
@@ -178,6 +180,7 @@ export const COLORS: Product[] = [
     value: 3,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
+    color: '#ffffff',
   },
   {
     id: 15,
@@ -185,6 +188,7 @@ export const COLORS: Product[] = [
     value: 4,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
+    color: 'linear-gradient(135deg, rgba(189,122,0,1) 0%, rgba(251,251,251,1) 70%, rgba(189,122,0,1) 100%)',
   },
   {
     id: 16,
@@ -192,6 +196,7 @@ export const COLORS: Product[] = [
     value: 5,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
+    color: 'linear-gradient(135deg, rgba(213,213,213,1) 0%, rgba(251,251,251,1) 70%, rgba(213,213,213,1) 100%)',
   },
   {
     id: 17,
@@ -199,6 +204,7 @@ export const COLORS: Product[] = [
     value: 6,
     type: 'COLOR',
     bundle: BUNDLE_INDEX.COLORS,
+    color: 'linear-gradient(135deg, rgba(255,215,0,1) 0%, rgba(251,251,251,1) 70%, rgba(255,215,0,1) 100%)',
   },
 ];
 
@@ -209,6 +215,7 @@ export const CLASSES: Product[] = [
     value: 2,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
+    color: '#000000'
   },
   {
     id: 19,
@@ -216,6 +223,7 @@ export const CLASSES: Product[] = [
     value: 3,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
+    color: '#00d358',
   },
   {
     id: 20,
@@ -223,6 +231,7 @@ export const CLASSES: Product[] = [
     value: 4,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
+    color: '#0084ff',
   },
   {
     id: 21,
@@ -230,6 +239,7 @@ export const CLASSES: Product[] = [
     value: 5,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
+    color: '#aa00e9',
   },
   {
     id: 22,
@@ -237,6 +247,7 @@ export const CLASSES: Product[] = [
     value: 6,
     type: 'CLASS',
     bundle: BUNDLE_INDEX.CLASSES,
+    color: '#ffa000',
   },
 ];
 

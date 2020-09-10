@@ -36,12 +36,16 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.5s ease-out;
+  transition: all 1s ease-in-out;
   background: #ffffff;
   font-size: 2rem;
   &.fail {
     border: 1rem solid $colorRed;
     box-shadow: 0 0 0.5rem 0.5rem $colorRed;
+  }
+  &.not-found {
+    border: 1rem solid $colorBlue;
+    box-shadow: 0 0 0.5rem 0.5rem $colorBlue;
   }
   &.success {
     border: 1rem solid $colorGreen;

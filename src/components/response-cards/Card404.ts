@@ -9,7 +9,7 @@ export default class Card404 extends BasicComponent {
     this.add(new BaseCard({
       id: ID_404,
       name: '404',
-      value: 1,
+      value: 0,
       type: 'CREATURE',
       bundle: BUNDLE_INDEX.WILD_ANIMALS,
     }));

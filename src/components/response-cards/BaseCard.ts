@@ -1,5 +1,5 @@
 import BasicComponent from "../Basic";
-import { Product, ID_404, TURN_DELAY, PRODUCT_BUNDLES } from "../../constants";
+import { Product, ID_404, TURN_DELAY, PRODUCT_BUNDLES, BUNDLE_INDEX } from "../../constants";
 import Game, { getLikeDom } from "../../game";
 
 import './card.scss';
@@ -11,15 +11,29 @@ export default class BaseCard extends BasicComponent {
   constructor(prod: Product) {
     super('div');
     this.product = prod;
-    this.dom.class('card init');
+    let decoClass = ''
+    if (prod.bundle === BUNDLE_INDEX.CLASSES) {
+      decoClass = 'classes'
+    } else if (prod.bundle === BUNDLE_INDEX.COLORS) {
+      decoClass = 'colors'
+    }
+    this.dom.class(`card init ${decoClass}`);
     setTimeout(() => {
-      this.dom.class('card');
+      this.dom.class(`card ${decoClass}`);
     }, TURN_DELAY);
+    if (prod.bundle === BUNDLE_INDEX.COLORS) {
+      this.dom.getDom().style.background = prod.color || '#ffffff'
+    }
     this.dom.getDom().addEventListener('click', (event: MouseEvent) => {
       this.onClick(event);
     })
     const name = new SimpleDom('div')
     name.text(prod.name).class('name')
+    if (prod.bundle === BUNDLE_INDEX.CLASSES) {
+      const realDom = name.getDom()
+      realDom.style.color = prod.color || '#000000'
+      realDom.style.textShadow = '1px 1px #aaaaaa'
+    }
     this.dom.append(name)
     const bundle = PRODUCT_BUNDLES.find(bun => bun.id === prod.bundle)
     const seperator = bundle ? (bundle.type === 'CARD_PACK' ? ' : ' : ' * ') : ''

@@ -109,7 +109,7 @@ export const getDealCardById = (id: number): SimpleDom | null => {
 
 export const calcTurnLikes = (request: Request): number => {
   if (request.reqCreatureId !== request.resCreatureId) {
-    return request.resCreatureId === ID_404 ? 1 : 0;
+    return request.resCreatureId === ID_404 ? 0 : -5;
   } else {
     let likes = CREATURES.find(card => card.id === request.resCreatureId)!.value;
     if (request.reqClassId !== ID_NONE && request.reqClassId === request.resClassId) {
@@ -144,10 +144,19 @@ export const getLikeDom = (text: string, size?: number, swap?: boolean): SimpleD
 
 export const showTurnResult = (likes: number) => {
   const result = new SimpleDom('div')
-  result.append(getLikeDom(` +${likes}`))
+  let content
+  if (likes !== 0) {
+    content = getLikeDom(` ${likes > 0 ? '+' : ''}${likes}`)
+  } else {
+    content = new SimpleDom('span')
+    content.text('Pass')
+  }
+  result.append(content)
   const classes = ['turn-result']
-  if (likes <= 0) {
+  if (likes < 0) {
     classes.push('fail')
+  } else if (likes === 0) {
+    classes.push('not-found')
   } else if (likes < 30) {
     classes.push('success')
   } else {
@@ -246,6 +255,13 @@ export default class Game {
   static nextTurn() {
     const deltaLikes = calcTurnLikes(Game.state!.currentRequest);
     showTurnResult(deltaLikes)
+    let timeout = DEFAULT_TIMEOUT
+    if (Game.state!.inventory.includes(BUNDLE_INDEX.CLASSES)) {
+      timeout += 2000
+    }
+    if (Game.state!.inventory.includes(BUNDLE_INDEX.COLORS)) {
+      timeout += 2000
+    }
     setTimeout(() => {
       Game.setState({
         ...Game.state!,
@@ -255,7 +271,7 @@ export default class Game {
         failCount: Game.state!.failCount + (deltaLikes > 0 ? 0 : 1),
         lastRequest: { ...Game.state!.currentRequest },
         currentRequest: { ...Game.state!.nextRequest },
-        nextRequest: Game.generateRequest(Game.state!.inventory),
+        nextRequest: Game.generateRequest(Game.state!.inventory, timeout),
       });
     }, TURN_DELAY)
   }
