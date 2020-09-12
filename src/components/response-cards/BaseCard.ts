@@ -11,17 +11,14 @@ export default class BaseCard extends BasicComponent {
   constructor(prod: Product) {
     super('div');
     this.product = prod;
-    let decoClass = ''
-    if (prod.bundle === BUNDLE_INDEX.CLASSES) {
-      decoClass = 'classes'
-    } else if (prod.bundle === BUNDLE_INDEX.COLORS) {
-      decoClass = 'colors'
-    }
-    this.dom.class(`card init ${decoClass}`);
+    this.dom.class(`card init`);
     setTimeout(() => {
-      this.dom.class(`card ${decoClass}`);
+      this.dom.class(`card`);
     }, TURN_DELAY);
     if (prod.bundle === BUNDLE_INDEX.COLORS) {
+      this.dom.getDom().style.background = prod.color || '#ffffff'
+    }
+    if ([BUNDLE_INDEX.WILD_ANIMALS, BUNDLE_INDEX.LEGENDARY_CREATURES, BUNDLE_INDEX.UNICORM, BUNDLE_INDEX.DRAGON].includes(prod.bundle)) {
       this.dom.getDom().style.background = prod.color || '#ffffff'
     }
     this.dom.getDom().addEventListener('click', (event: MouseEvent) => {

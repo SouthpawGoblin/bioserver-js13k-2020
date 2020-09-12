@@ -155,6 +155,7 @@ export const CREATURES: Product[] = [
     value: 10,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.UNICORM,
+    color: 'linear-gradient(135deg, rgba(255,61,61,1) 0%, rgba(248,138,51,1) 16%, rgba(240,236,41,1) 32%, rgba(57,255,48,1) 48%, rgba(54,255,214,1) 64%, rgba(46,80,255,1) 83%, rgba(210,51,255,1) 100%)',
   },
   {
     id: 12,
@@ -162,6 +163,7 @@ export const CREATURES: Product[] = [
     value: 50,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.DRAGON,
+    color: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(228,210,24,1) 54%, rgba(255,61,61,1) 100%)',
   },
 ];
 

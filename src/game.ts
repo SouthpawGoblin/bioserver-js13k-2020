@@ -26,6 +26,8 @@ export interface GameState {
   currentRequest: Request;
   nextRequest: Request;
   lastDealedCardId: number;
+  refreshLeft: number;
+  likesRequiredForBonusRefresh: number;
 }
 
 export type GameCustomEventDetail = {
@@ -63,7 +65,7 @@ export const getResLikes = (wholeSet: Product[], reqId: number, resId: number, i
   if (resId === ID_NONE) {
     likeText = isCreature ? ': 0' : ' * 1';
   } else if (resId === ID_404) {
-    likeText = isCreature ? ': 1' : ' * 1';
+    likeText = isCreature ? ': 0' : ' * 1';
   } else if (reqId !== resId) {
     likeText = isCreature ? ': 0' : ' * 1';
   } else {
@@ -75,6 +77,8 @@ export const getResLikes = (wholeSet: Product[], reqId: number, resId: number, i
 export const getResClass = (reqId: number, resId: number): string => {
   if (resId === ID_NONE) {
     return 'res blank';
+  } else if (resId === ID_404) {
+    return 'res not-found';
   } else if (resId === reqId) {
     return 'res correct';
   } else {
@@ -249,6 +253,8 @@ export default class Game {
       currentRequest,
       nextRequest,
       lastDealedCardId: ID_NONE,
+      refreshLeft: 5,
+      likesRequiredForBonusRefresh: 5,
     });
   }
 
@@ -312,5 +318,12 @@ export default class Game {
         inventory: [...Game.state!.inventory, id],
       })
     }
+  }
+
+  static refresh() {
+    Game.setState({
+      ...Game.state!,
+      refreshLeft: Game.state!.refreshLeft > 0 ? Game.state!.refreshLeft - 1 : 0,
+    })
   }
 }

@@ -33,7 +33,7 @@
       font-weight: bold;
       color: $colorGray;
     }
-    .loading {
+    .loading, .not-found {
       font-weight: bold;
       color: $colorBlue;
     }
@@ -108,11 +108,18 @@
     .res {
       &.blank {
         box-shadow: none;
-        border: 1px dashed #bbbbbb;
+        border: 0.2rem dashed #bbbbbb;
+        &.creature {
+          border: 0.2rem solid #bbbbbb;
+        }
       }
       &.correct {
         border: 0.2rem solid $colorGreen;
         box-shadow: 0 2px 5px 0 lighten($colorGreen, 30%);
+      }
+      &.not-found {
+        border: 0.2rem solid $colorBlue;
+        box-shadow: 0 2px 5px 0 lighten($colorBlue, 30%);
       }
       &.wrong {
         border: 0.2rem solid $colorRed;
@@ -121,7 +128,7 @@
       & > .like > img {
         width: 1.2rem;
       }
-      width: 6rem;
+      width: 7.5rem;
       height: 2rem;
       display: flex;
       justify-content: center;

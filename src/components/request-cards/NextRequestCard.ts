@@ -1,7 +1,7 @@
 import BasicComponent from "../Basic";
 import Game, { GameCustomEventDetail, getResText, getResClass, Request } from "../../game";
 import SimpleDom from "../../simple-dom";
-import { BUNDLE_INDEX, CREATURES, CLASSES, COLORS } from "../../constants";
+import { BUNDLE_INDEX, CREATURES, CLASSES, COLORS, ID_NONE } from "../../constants";
 
 export default class NextRequestCard extends BasicComponent {
   header: SimpleDom;
@@ -38,7 +38,7 @@ export default class NextRequestCard extends BasicComponent {
     content.class('content');
     this.dom.append(content);
     // class col
-    if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
+    if (req.reqClassId !== ID_NONE) {
       const classCol = new SimpleDom('div');
       classCol.class('col');
       this.reqClass = new SimpleDom('span');
@@ -52,7 +52,7 @@ export default class NextRequestCard extends BasicComponent {
       content.append(classCol);
     }
     // color col
-    if (Game.state?.inventory.includes(BUNDLE_INDEX.COLORS)) {
+    if (req.reqColorId !== ID_NONE) {
       const colorCol = new SimpleDom('div');
       colorCol.class('col');
       this.reqColor = new SimpleDom('span');
@@ -73,7 +73,7 @@ export default class NextRequestCard extends BasicComponent {
     this.resCreature = new SimpleDom('span');
     this.resCreature
       .text(getResText(CREATURES, req.resCreatureId))
-      .class('res blank');
+      .class('res blank creature');
     creatureCol.append(this.reqCreature);
     creatureCol.append(this.resCreature);
     content.append(creatureCol);

@@ -39,7 +39,7 @@ export default class LastRequestCard extends BasicComponent {
     content.class('content');
     this.dom.append(content);
     // class col
-    if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
+    if (req.reqClassId !== ID_NONE) {
       const classCol = new SimpleDom('div');
       classCol.class('col');
       this.reqClass = new SimpleDom('span');
@@ -53,7 +53,7 @@ export default class LastRequestCard extends BasicComponent {
       content.append(classCol);
     }
     // color col
-    if (Game.state?.inventory.includes(BUNDLE_INDEX.COLORS)) {
+    if (req.reqColorId !== ID_NONE) {
       const colorCol = new SimpleDom('div');
       colorCol.class('col');
       this.reqColor = new SimpleDom('span');
@@ -74,7 +74,7 @@ export default class LastRequestCard extends BasicComponent {
     this.resCreature = new SimpleDom('span');
     this.resCreature
       .append(getResLikes(CREATURES, req.reqCreatureId, req.resCreatureId, true))
-      .class(req.reqCreatureId === req.resCreatureId ? 'res correct' : 'res wrong');
+      .class(req.reqCreatureId === req.resCreatureId ? 'res correct' : (req.resCreatureId === ID_404 ? 'res not-found' : 'res wrong'));
     creatureCol.append(this.reqCreature);
     creatureCol.append(this.resCreature);
     content.append(creatureCol);
@@ -92,7 +92,7 @@ export default class LastRequestCard extends BasicComponent {
     } else if (resCreatureId === ID_404) {
       return {
         status: 'Not Found',
-        class: 'error',
+        class: 'not-found',
       };
     } else if (resCreatureId === reqCreatureId) {
       return {

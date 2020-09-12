@@ -1,3 +1,5 @@
+@import '../index.scss';
+
 .conveyor {
   display: flex;
   align-items: center;
@@ -22,6 +24,27 @@
       left: -6rem;
       top: 50%;
       transform: translateY(-50%);
+    }
+  }
+  & > .conveyor-refresh {
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dddddd;
+    box-shadow: 0 2px 5px 0 #bbbbbb;
+    border-radius: 3rem;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 2px 15px 0 #bbbbbb;
+    }
+    .refresh {
+      color: $colorGreen;
+      &.zero {
+        color: $colorRed;
+      }
     }
   }
 }

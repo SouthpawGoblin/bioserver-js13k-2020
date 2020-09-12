@@ -13,6 +13,7 @@ export default class Conveyor extends BasicComponent {
   pool: Product[] = [];
   cards: BaseCard[] = [];
   container: SimpleDom;
+  refreshCount: SimpleDom;
 
   constructor(type: ConveyorType, capacity: number = 4) {
     super('div');
@@ -32,9 +33,29 @@ export default class Conveyor extends BasicComponent {
     content.append(title);
     this.container = content;
     this.dom.append(content);
+    // refresh button
+    const refresh = new SimpleDom('div');
+    refresh.class('conveyor-refresh');
+    refresh.append((new SimpleDom('div')).text('Refresh'));
+    this.refreshCount = new SimpleDom('div');
+    this.refreshCount.text('').class('refresh');
+    refresh.append(this.refreshCount);
+    refresh.getDom().addEventListener('click', () => {
+      if (Game.state!.refreshLeft > 0) {
+        this.refreshCards()
+        Game.refresh()
+      }
+    })
+    this.dom.append(refresh);
   }
 
   onUpdate(detail: GameCustomEventDetail) {
+    if (isChanged(detail, 'refreshLeft')) {
+      this.refreshCount.text(String(Game.state!.refreshLeft)).class('refresh');
+      if (Game.state!.refreshLeft <= 0) {
+        this.refreshCount.class('refresh zero');
+      }
+    }
     if (isChanged(detail, 'inventory')) {
       const inv = Game.state!.inventory;
       const pool = ALL_PRODUCTS.filter(prod => prod.type === this.type && inv.includes(prod.bundle));
@@ -85,6 +106,16 @@ export default class Conveyor extends BasicComponent {
           }
         }
       }
+    }
+  }
+
+  refreshCards() {
+    this.cards.forEach(card => card.dom.getDom().remove())
+    this.cards = []
+    for (let i = 0; i < this.capacity; i++) {
+      const card = new BaseCard(randPoolItem(this.pool));
+      this.cards.push(card);
+      this.container.append(card.dom);
     }
   }
 }

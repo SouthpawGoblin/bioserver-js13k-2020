@@ -2,7 +2,7 @@ import BasicComponent from "../Basic";
 import Game, { GameCustomEventDetail, isChanged, getResText, getResClass, Request } from "../../game";
 import SimpleDom from "../../simple-dom";
 import CurrentTimer from "./CurrentTimer";
-import { BUNDLE_INDEX, CREATURES, CLASSES, COLORS } from "../../constants";
+import { BUNDLE_INDEX, CREATURES, CLASSES, COLORS, ID_NONE, ID_404 } from "../../constants";
 
 export default class CurrentRequestCard extends BasicComponent {
   header: SimpleDom;
@@ -39,7 +39,7 @@ export default class CurrentRequestCard extends BasicComponent {
     content.class('content');
     this.dom.append(content);
     // class col
-    if (Game.state?.inventory.includes(BUNDLE_INDEX.CLASSES)) {
+    if (req.reqClassId !== ID_NONE) {
       const classCol = new SimpleDom('div');
       classCol.class('col');
       this.reqClass = new SimpleDom('span');
@@ -53,7 +53,7 @@ export default class CurrentRequestCard extends BasicComponent {
       content.append(classCol);
     }
     // color col
-    if (Game.state?.inventory.includes(BUNDLE_INDEX.COLORS)) {
+    if (req.reqColorId !== ID_NONE) {
       const colorCol = new SimpleDom('div');
       colorCol.class('col');
       this.reqColor = new SimpleDom('span');
@@ -74,7 +74,7 @@ export default class CurrentRequestCard extends BasicComponent {
     this.resCreature = new SimpleDom('span');
     this.resCreature
       .text(getResText(CREATURES, req.resCreatureId))
-      .class('res blank');
+      .class('res blank creature');
     creatureCol.append(this.reqCreature);
     creatureCol.append(this.resCreature);
     content.append(creatureCol);
@@ -94,10 +94,24 @@ export default class CurrentRequestCard extends BasicComponent {
         this.resClass && this.resClass
           .text(getResText(CLASSES, newCR.resClassId))
           .class(getResClass(newCR.reqClassId, newCR.resClassId));
+        if (newCR.resClassId !== ID_404 && newCR.resClassId !== ID_NONE) {
+          const classProd = CLASSES.find(c => c.id === newCR.resClassId)
+          if (this.resClass) {
+            const realDom = this.resClass.getDom()
+            realDom.style.color = classProd!.color || '#000000'
+            realDom.style.textShadow = '1px 1px #aaaaaa'
+          }
+        }
       } else if (newCR.resColorId !== oldCR.resColorId) {
         this.resColor && this.resColor
           .text(getResText(COLORS, newCR.resColorId))
           .class(getResClass(newCR.reqColorId, newCR.resColorId));
+        if (newCR.resColorId !== ID_NONE && newCR.resColorId !== ID_404) {
+          const colorProd = COLORS.find(c => c.id === newCR.resColorId)
+          if (this.resColor) {
+            this.resColor.getDom().style.background = colorProd!.color || '#ffffff'
+          }
+        }
       } else if (newCR.resCreatureId !== oldCR.resCreatureId) {
         this.resCreature
           .text(getResText(CREATURES, newCR.resCreatureId))
