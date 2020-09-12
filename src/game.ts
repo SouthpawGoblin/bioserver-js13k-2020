@@ -271,13 +271,14 @@ export default class Game {
     setTimeout(() => {
       Game.setState({
         ...Game.state!,
-        likes: Game.state!.likes + deltaLikes,
+        likes: (Game.state!.likes + deltaLikes) > 0 ? (Game.state!.likes + deltaLikes) : 0,
         turnCount: Game.state!.turnCount + 1,
         successCount: Game.state!.successCount + (deltaLikes > 0 ? 1 : 0),
         failCount: Game.state!.failCount + (deltaLikes > 0 ? 0 : 1),
         lastRequest: { ...Game.state!.currentRequest },
         currentRequest: { ...Game.state!.nextRequest },
         nextRequest: Game.generateRequest(Game.state!.inventory, timeout),
+        refreshLeft: deltaLikes >= Game.state!.likesRequiredForBonusRefresh ? Game.state!.refreshLeft + 1 : Game.state!.refreshLeft,
       });
     }, TURN_DELAY)
   }
