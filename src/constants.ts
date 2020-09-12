@@ -120,6 +120,7 @@ export const CREATURES: Product[] = [
     value: 3,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
+    color: '#ffe34f',
   },
   {
     id: 7,
@@ -127,6 +128,7 @@ export const CREATURES: Product[] = [
     value: 4,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
+    color: '#ffe34f',
   },
   {
     id: 8,
@@ -134,6 +136,7 @@ export const CREATURES: Product[] = [
     value: 5,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
+    color: '#ffe34f',
   },
   {
     id: 9,
@@ -141,6 +144,7 @@ export const CREATURES: Product[] = [
     value: 6,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
+    color: '#ffe34f',
   },
   {
     id: 10,
@@ -148,6 +152,7 @@ export const CREATURES: Product[] = [
     value: 7,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
+    color: '#ffe34f',
   },
   {
     id: 11,

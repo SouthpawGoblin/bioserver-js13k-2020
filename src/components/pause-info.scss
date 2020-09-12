@@ -1,4 +1,8 @@
 .pause-info {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 2rem;
   text-align: center;
   height: 3rem;
   line-height: 3rem;
@@ -11,24 +15,24 @@
 
 @keyframes pause-anim {
   0% {
-    color: #ff3d3d;
+    color: darken(#ff3d3d, 10%);
   }
   16% {
-    color: #f88a33;
+    color: darken(#f88a33, 10%);
   }
   32% {
-    color: #f0ec29;
+    color: darken(#f0ec29, 10%);
   }
   48% {
-    color: #39ff30;
+    color: darken(#39ff30, 10%);
   }
   64% {
-    color: #36ffd6;
+    color: darken(#36ffd6, 10%);
   }
   83% {
-    color: #2e50ff;
+    color: darken(#2e50ff, 10%);
   }
   100% {
-    color: #d233ff;
+    color: darken(#d233ff, 10%);
   }
 }

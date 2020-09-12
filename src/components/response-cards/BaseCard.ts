@@ -33,7 +33,7 @@ export default class BaseCard extends BasicComponent {
     }
     this.dom.append(name)
     const bundle = PRODUCT_BUNDLES.find(bun => bun.id === prod.bundle)
-    const seperator = bundle ? (bundle.type === 'CARD_PACK' ? ' : ' : ' * ') : ''
+    const seperator = bundle ? (bundle.type === 'CARD_PACK' ? ' : ' : ' \u00D7 ') : ''
     this.dom.append(getLikeDom(`${seperator}${prod.value}`, 1))
   }
 

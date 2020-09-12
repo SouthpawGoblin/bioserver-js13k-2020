@@ -116,6 +116,12 @@ export default class CurrentRequestCard extends BasicComponent {
         this.resCreature
           .text(getResText(CREATURES, newCR.resCreatureId))
           .class(getResClass(newCR.reqCreatureId, newCR.resCreatureId));
+        if (newCR.resCreatureId !== ID_NONE && newCR.resCreatureId !== ID_404) {
+          const creatureProd = CREATURES.find(c => c.id === newCR.resCreatureId)
+          if (this.resCreature) {
+            this.resCreature.getDom().style.background = creatureProd!.color || '#ffffff'
+          }
+        }
       }
     }
   }

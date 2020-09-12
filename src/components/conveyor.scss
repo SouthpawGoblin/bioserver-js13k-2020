@@ -41,6 +41,8 @@
       box-shadow: 0 2px 15px 0 #bbbbbb;
     }
     .refresh {
+      font-weight: bold;
+      font-size: 1.5rem;
       color: $colorGreen;
       &.zero {
         color: $colorRed;

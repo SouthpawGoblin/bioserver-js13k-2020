@@ -1,0 +1,14 @@
+@import '../index.scss';
+
+.refresh-bonus-notion {
+  display: inline-block;
+  height: 3rem;
+  line-height: 3rem;
+  padding: 0 1rem;
+  background-color: $colorGold;
+  position: fixed;
+  right: 0;
+  bottom: 2rem;
+  border-top-left-radius: 3rem;
+  border-bottom-left-radius: 3rem;
+}

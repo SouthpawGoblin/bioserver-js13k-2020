@@ -63,13 +63,13 @@ export const getResLikes = (wholeSet: Product[], reqId: number, resId: number, i
   let likeText = '';
   const prod = wholeSet.find(item => item.id === resId);
   if (resId === ID_NONE) {
-    likeText = isCreature ? ': 0' : ' * 1';
+    likeText = isCreature ? ': -5' : ' \u00D7 1';
   } else if (resId === ID_404) {
-    likeText = isCreature ? ': 0' : ' * 1';
+    likeText = isCreature ? ': -1' : ' \u00D7 1';
   } else if (reqId !== resId) {
-    likeText = isCreature ? ': 0' : ' * 1';
+    likeText = isCreature ? ': -5' : ' \u00D7 1';
   } else {
-    likeText = isCreature ? `: ${prod?.value}` : ` * ${prod?.value}`;
+    likeText = isCreature ? `: ${prod?.value}` : ` \u00D7 ${prod?.value}`;
   }
   return getLikeDom(likeText);
 }
@@ -113,7 +113,7 @@ export const getDealCardById = (id: number): SimpleDom | null => {
 
 export const calcTurnLikes = (request: Request): number => {
   if (request.reqCreatureId !== request.resCreatureId) {
-    return request.resCreatureId === ID_404 ? 0 : -5;
+    return request.resCreatureId === ID_404 ? -1 : -5;
   } else {
     let likes = CREATURES.find(card => card.id === request.resCreatureId)!.value;
     if (request.reqClassId !== ID_NONE && request.reqClassId === request.resClassId) {
@@ -159,7 +159,7 @@ export const showTurnResult = (likes: number) => {
   const classes = ['turn-result']
   if (likes < 0) {
     classes.push('fail')
-  } else if (likes === 0) {
+  } else if (likes === -1) {
     classes.push('not-found')
   } else if (likes < 30) {
     classes.push('success')
@@ -244,7 +244,7 @@ export default class Game {
     const nextRequest = Game.generateRequest(inventory);
     Game.setState({
       paused: false,
-      likes: 999,
+      likes: 0,
       turnCount: 1,
       successCount: 0,
       failCount: 0,
@@ -324,6 +324,12 @@ export default class Game {
     Game.setState({
       ...Game.state!,
       refreshLeft: Game.state!.refreshLeft > 0 ? Game.state!.refreshLeft - 1 : 0,
+      likesRequiredForBonusRefresh: Game.state!.likesRequiredForBonusRefresh < 50 ? Game.state!.likesRequiredForBonusRefresh + 5 : 50,
     })
+  }
+
+  static win() {
+    document.getElementById('win-req-count')!.innerText = String(Game.state!.currentRequest.id - 1)
+    document.getElementById('win-splash')!.style.display = 'block'
   }
 }

@@ -1,6 +1,6 @@
 import BasicComponent from "../Basic";
 import Game, { GameCustomEventDetail, isChanged } from "../../game";
-import { ID_NONE } from "../../constants";
+import { ID_NONE, LIKES_NEEDED } from "../../constants";
 
 export default class CurrentTimer extends BasicComponent {
   timeout: number;
@@ -62,6 +62,11 @@ export default class CurrentTimer extends BasicComponent {
     }
     if (isChanged(detail, 'turnCount')) {
       this.paused = false;
+    }
+    if (isChanged(detail, 'likes')) {
+      if (detail.newState.likes >= LIKES_NEEDED) {
+        this.paused = true;
+      }
     }
   }
 
