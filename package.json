@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "main": "index.js",
   "repository": "https://github.com/SouthpawGoblin/bioserver-js13k-2020.git",
-  "author": "Yinzhe-Qi <goblin-qyz@163.com>",
+  "author": "Roger Chi <goblin-qyz@163.com>",
   "license": "MIT",
   "private": true,
   "scripts": {

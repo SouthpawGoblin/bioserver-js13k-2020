@@ -1,13 +1,13 @@
 {
   "name": "Bio-Server",
-  "description": "You are a wanderer in the dark, persued by unnamable hordes, use your arsenal of light to eliminate enemies and dawn the world.\nControls: press [Z] to throw back flash bangs, press [X] to deploy flash mines.\nEach blast will draw the dawn nearer and when the dawn breaks you beat the game.\nGood luck !",
+  "description": "As a Bio-Server Model-0451, your job is to response to various creature assembly requests correctly, successful response will earn you Likes to purchase helpful yet challenging upgrades.",
   "images" : {
-    "image_large": "image-big.jpg",
-    "image_thumbnail": "image-small.jpg"
+    "image_large": "image-big.png",
+    "image_thumbnail": "image-small.png"
   },
   "categories": ["Desktop"],
   "user" : {
-    "name": "Roger Qi",
-    "website": "https://github.com/SouthpawGoblin"
+    "name": "Roger Chi",
+    "website": "https://roger-chi.now.sh/"
   }
 }
