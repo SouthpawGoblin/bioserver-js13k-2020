@@ -120,7 +120,7 @@ export const CREATURES: Product[] = [
     value: 3,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
-    color: '#ffe34f',
+    color: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,227,79,1) 100%)',
   },
   {
     id: 7,
@@ -128,7 +128,7 @@ export const CREATURES: Product[] = [
     value: 4,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
-    color: '#ffe34f',
+    color: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,227,79,1) 100%)',
   },
   {
     id: 8,
@@ -136,7 +136,7 @@ export const CREATURES: Product[] = [
     value: 5,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
-    color: '#ffe34f',
+    color: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,227,79,1) 100%)',
   },
   {
     id: 9,
@@ -144,7 +144,7 @@ export const CREATURES: Product[] = [
     value: 6,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
-    color: '#ffe34f',
+    color: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,227,79,1) 100%)',
   },
   {
     id: 10,
@@ -152,7 +152,7 @@ export const CREATURES: Product[] = [
     value: 7,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.LEGENDARY_CREATURES,
-    color: '#ffe34f',
+    color: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,227,79,1) 100%)',
   },
   {
     id: 11,
@@ -165,7 +165,7 @@ export const CREATURES: Product[] = [
   {
     id: 12,
     name: 'Dragon',
-    value: 50,
+    value: 30,
     type: 'CREATURE',
     bundle: BUNDLE_INDEX.DRAGON,
     color: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(228,210,24,1) 54%, rgba(255,61,61,1) 100%)',

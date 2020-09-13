@@ -70,6 +70,9 @@ export default class Conveyor extends BasicComponent {
       }
       this.pool = pool;
     }
+    if (isChanged(detail, 'systemRefreshToken') && this.type === 'CREATURE') {
+      this.refreshCards()
+    }
     if (isChanged(detail, 'currentRequest')) {
       if (!detail.oldState) {
         return;

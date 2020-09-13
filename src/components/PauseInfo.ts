@@ -13,7 +13,7 @@ export default class PauseInfo extends BasicComponent {
       this.dom.text(
         detail.newState.paused
           ? 'Press [Space] to continue the game.'
-          : 'Press [Space] to pause and go shopping.'
+          : 'Press [Space] to pause and purchase Upgrades.'
       );
     }
   }

@@ -1,5 +1,5 @@
 import BasicComponent from "./Basic";
-import { ProductBundle } from "../constants";
+import { BUNDLE_INDEX, ProductBundle } from "../constants";
 import SimpleDom from "../simple-dom";
 import Game, { getLikeDom, GameCustomEventDetail, isChanged } from "../game";
 import './store-product-bundle.scss';
@@ -34,6 +34,9 @@ export default class StoreProductBundle extends BasicComponent {
     this.add(new ProductBundleDetail(bundle))
     // click event
     this.dom.getDom().addEventListener('click', () => {
+      if (this.bundle.id === BUNDLE_INDEX.WILD_ANIMALS) {
+        return
+      }
       let timeoutId = -1
       if (!this.sold) {
         try {
@@ -66,7 +69,10 @@ export default class StoreProductBundle extends BasicComponent {
   }
 
   updateClass() {
-    if (Game.state!.inventory.includes(this.bundle.id)) {
+    if (this.bundle.id === BUNDLE_INDEX.WILD_ANIMALS) {
+      this.dom.class('store-product-bundle sold')
+      this.sold = true
+    } else if (Game.state!.inventory.includes(this.bundle.id)) {
       this.dom.class('store-product-bundle sold')
       this.sold = true
     } else {

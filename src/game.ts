@@ -28,6 +28,7 @@ export interface GameState {
   lastDealedCardId: number;
   refreshLeft: number;
   likesRequiredForBonusRefresh: number;
+  systemRefreshToken: number;
 }
 
 export type GameCustomEventDetail = {
@@ -244,7 +245,7 @@ export default class Game {
     const nextRequest = Game.generateRequest(inventory);
     Game.setState({
       paused: false,
-      likes: 0,
+      likes: 999,
       turnCount: 1,
       successCount: 0,
       failCount: 0,
@@ -254,7 +255,8 @@ export default class Game {
       nextRequest,
       lastDealedCardId: ID_NONE,
       refreshLeft: 5,
-      likesRequiredForBonusRefresh: 5,
+      likesRequiredForBonusRefresh: 3,
+      systemRefreshToken: 0,
     });
   }
 
@@ -263,10 +265,10 @@ export default class Game {
     showTurnResult(deltaLikes)
     let timeout = DEFAULT_TIMEOUT
     if (Game.state!.inventory.includes(BUNDLE_INDEX.CLASSES)) {
-      timeout += 2000
+      timeout += 4000
     }
     if (Game.state!.inventory.includes(BUNDLE_INDEX.COLORS)) {
-      timeout += 2000
+      timeout += 4000
     }
     setTimeout(() => {
       Game.setState({
@@ -313,11 +315,32 @@ export default class Game {
     if (Game.state!.likes < bundle.price) {
       throw new Error('Insufficient Likes')
     } else {
-      Game.setState({
-        ...Game.state!,
-        likes: Game.state!.likes - bundle.price,
-        inventory: [...Game.state!.inventory, id],
-      })
+      const inv = [...Game.state!.inventory]
+      if (id === BUNDLE_INDEX.LEGENDARY_CREATURES) {
+        const index = inv.findIndex(b => b === BUNDLE_INDEX.WILD_ANIMALS)
+        inv.splice(index, 1, BUNDLE_INDEX.LEGENDARY_CREATURES)
+        Game.setState({
+          ...Game.state!,
+          likes: Game.state!.likes - bundle.price,
+          currentRequest: {
+            ...Game.state!.currentRequest,
+            reqCreatureId: 9,
+          },
+          nextRequest: {
+            ...Game.state!.nextRequest,
+            reqCreatureId: 10,
+          },
+          inventory: inv,
+          systemRefreshToken: Game.state!.systemRefreshToken + 1,
+        })
+      } else {
+        inv.push(id)
+        Game.setState({
+          ...Game.state!,
+          likes: Game.state!.likes - bundle.price,
+          inventory: inv,
+        })
+      }
     }
   }
 
@@ -325,7 +348,7 @@ export default class Game {
     Game.setState({
       ...Game.state!,
       refreshLeft: Game.state!.refreshLeft > 0 ? Game.state!.refreshLeft - 1 : 0,
-      likesRequiredForBonusRefresh: Game.state!.likesRequiredForBonusRefresh < 50 ? Game.state!.likesRequiredForBonusRefresh + 5 : 50,
+      likesRequiredForBonusRefresh: Game.state!.likesRequiredForBonusRefresh < 50 ? Game.state!.likesRequiredForBonusRefresh + 2 : 50,
     })
   }
 

@@ -2,7 +2,7 @@ import BasicComponent from "../Basic";
 import Game, { GameCustomEventDetail, isChanged, getResText, getResClass, Request } from "../../game";
 import SimpleDom from "../../simple-dom";
 import CurrentTimer from "./CurrentTimer";
-import { BUNDLE_INDEX, CREATURES, CLASSES, COLORS, ID_NONE, ID_404 } from "../../constants";
+import { BUNDLE_INDEX, CREATURES, CLASSES, COLORS, ID_NONE, ID_404, LIKES_NEEDED } from "../../constants";
 
 export default class CurrentRequestCard extends BasicComponent {
   header: SimpleDom;
@@ -43,7 +43,11 @@ export default class CurrentRequestCard extends BasicComponent {
       const classCol = new SimpleDom('div');
       classCol.class('col');
       this.reqClass = new SimpleDom('span');
-      this.reqClass.text(getResText(CLASSES, req.reqClassId))
+      this.reqClass.text(getResText(CLASSES, req.reqClassId)).class('req')
+      const classProd = CLASSES.find(c => c.id === req.reqClassId)
+      const realDom = this.reqClass.getDom()
+      realDom.style.color = classProd!.color || '#000000'
+      realDom.style.textShadow = '1px 1px #aaaaaa'
       this.resClass = new SimpleDom('div');
       this.resClass
         .text(getResText(CLASSES, req.resClassId))
@@ -57,7 +61,9 @@ export default class CurrentRequestCard extends BasicComponent {
       const colorCol = new SimpleDom('div');
       colorCol.class('col');
       this.reqColor = new SimpleDom('span');
-      this.reqColor.text(getResText(COLORS, req.reqColorId))
+      this.reqColor.text(getResText(COLORS, req.reqColorId)).class('req')
+      const colorProd = COLORS.find(c => c.id === req.reqColorId)
+      this.reqColor.getDom().style.background = colorProd!.color || '#ffffff'
       this.resColor = new SimpleDom('span');
       this.resColor
         .text(getResText(COLORS, req.resColorId))
@@ -70,7 +76,9 @@ export default class CurrentRequestCard extends BasicComponent {
     const creatureCol = new SimpleDom('div');
     creatureCol.class('col');
     this.reqCreature = new SimpleDom('span');
-    this.reqCreature.text(getResText(CREATURES, req.reqCreatureId));
+    this.reqCreature.text(getResText(CREATURES, req.reqCreatureId)).class('req');
+    const creatureProd = CREATURES.find(c => c.id === req.reqCreatureId)
+    this.reqCreature.getDom().style.background = creatureProd!.color || '#ffffff'
     this.resCreature = new SimpleDom('span');
     this.resCreature
       .text(getResText(CREATURES, req.resCreatureId))
@@ -80,7 +88,9 @@ export default class CurrentRequestCard extends BasicComponent {
     content.append(creatureCol);
     // timer
     // first ten requests have no time limit
-    (req.id > 10 && req.timeout > 0) && this.add(new CurrentTimer(req.timeout));
+    if (req.id > 10 && req.timeout > 0 && Game.state!.likes < LIKES_NEEDED) {
+      this.add(new CurrentTimer(req.timeout));
+    }
   }
 
   onUpdate(detail: GameCustomEventDetail) {
@@ -123,6 +133,11 @@ export default class CurrentRequestCard extends BasicComponent {
           }
         }
       }
+    }
+    if (isChanged(detail, 'systemRefreshToken')) {
+      this.reqCreature.text(getResText(CREATURES, detail.newState.currentRequest.reqCreatureId));
+      const creatureProd = CREATURES.find(c => c.id === detail.newState.currentRequest.reqCreatureId)
+      this.reqCreature.getDom().style.background = creatureProd!.color || '#ffffff'
     }
   }
 }

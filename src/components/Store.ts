@@ -6,6 +6,8 @@ import { PRODUCT_BUNDLES } from "../constants";
 import StoreProductBundle from "./StoreProductBundle.";
 
 export default class Store extends BasicComponent {
+  likeCount: SimpleDom;
+
   constructor() {
     super('div')
     this.dom.class('store')
@@ -13,6 +15,8 @@ export default class Store extends BasicComponent {
     const header = new SimpleDom('div')
     header.class('header')
     header.text('Expansion Packs & Multipliers for Sale !')
+    this.likeCount = (new SimpleDom('span')).text('Likes: 0').class('like-count')
+    header.append(this.likeCount)
     this.dom.append(header)
     // expansion packs
     const packRow = new StoreRow()
@@ -48,6 +52,9 @@ export default class Store extends BasicComponent {
     if (isChanged(detail, 'paused')) {
       const paused = Game.state!.paused
       this.dom.class(paused ? 'store' : 'store hide')
+    }
+    if (isChanged(detail, 'likes')) {
+      this.likeCount.text(`Likes: ${detail.newState.likes}`)
     }
   }
 }

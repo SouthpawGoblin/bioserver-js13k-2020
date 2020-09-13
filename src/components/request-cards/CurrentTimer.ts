@@ -66,6 +66,7 @@ export default class CurrentTimer extends BasicComponent {
     if (isChanged(detail, 'likes')) {
       if (detail.newState.likes >= LIKES_NEEDED) {
         this.paused = true;
+        this.counting = false;
       }
     }
   }

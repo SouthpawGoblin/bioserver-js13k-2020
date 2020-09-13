@@ -1,38 +1,49 @@
+@import '../index.scss';
+
 .pause-info {
   position: fixed;
   left: 50%;
+  font-size: 1.5rem;
   transform: translateX(-50%);
   bottom: 2rem;
   text-align: center;
   height: 3rem;
   line-height: 3rem;
-  color: gray;
+  color: $colorBlue;
   font-weight: bold;
-  animation-duration: 3s;
+  animation-duration: 1s;
   animation-name: pause-anim;
+  animation-timing-function: ease-in;
   animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 @keyframes pause-anim {
-  0% {
-    color: darken(#ff3d3d, 10%);
+  from {
+    opacity: 1;
   }
-  16% {
-    color: darken(#f88a33, 10%);
+  to {
+    opacity: 0.3;
   }
-  32% {
-    color: darken(#f0ec29, 10%);
-  }
-  48% {
-    color: darken(#39ff30, 10%);
-  }
-  64% {
-    color: darken(#36ffd6, 10%);
-  }
-  83% {
-    color: darken(#2e50ff, 10%);
-  }
-  100% {
-    color: darken(#d233ff, 10%);
-  }
+  // 0% {
+  //   color: darken(#ff3d3d, 10%);
+  // }
+  // 16% {
+  //   color: darken(#f88a33, 10%);
+  // }
+  // 32% {
+  //   color: darken(#f0ec29, 10%);
+  // }
+  // 48% {
+  //   color: darken(#39ff30, 10%);
+  // }
+  // 64% {
+  //   color: darken(#36ffd6, 10%);
+  // }
+  // 83% {
+  //   color: darken(#2e50ff, 10%);
+  // }
+  // 100% {
+  //   color: darken(#d233ff, 10%);
+  // }
 }
