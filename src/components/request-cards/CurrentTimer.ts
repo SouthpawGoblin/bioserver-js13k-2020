@@ -13,7 +13,7 @@ export default class CurrentTimer extends BasicComponent {
   
   constructor(timeout: number) {
     super('div');
-    this.dom.class('current-timer');
+    this.dom.cls('current-timer');
     this.timeout = timeout;
     this.counting = true;
     this.elapsedTime = 0;
@@ -23,11 +23,11 @@ export default class CurrentTimer extends BasicComponent {
 
   changeColor = (ratio: number) => {
     if (ratio < 0.33) {
-      this.dom.class('current-timer green');
+      this.dom.cls('current-timer green');
     } else if (ratio >= 0.33 && ratio < 0.67) {
-      this.dom.class('current-timer yellow');
+      this.dom.cls('current-timer yellow');
     } else {
-      this.dom.class('current-timer red');
+      this.dom.cls('current-timer red');
     }
   }
 

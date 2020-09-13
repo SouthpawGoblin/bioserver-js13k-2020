@@ -1,4 +1,4 @@
-export default class SimpleDom {
+export default class SD {
   private dom: HTMLElement;
 
   constructor(element: keyof HTMLElementTagNameMap | HTMLElement) {
@@ -15,22 +15,22 @@ export default class SimpleDom {
     return this;
   }
 
-  class(classNames: string) {
+  cls(classNames: string) {
     this.dom.className = classNames;
     return this;
   }
 
-  text(text: string) {
+  tt(text: string) {
     this.dom.innerText = text;
     return this;
   }
 
-  append(ele: SimpleDom) {
+  apd(ele: SD) {
     this.dom.appendChild(ele.dom);
     return this;
   }
 
-  prepend(ele: SimpleDom) {
+  ppd(ele: SD) {
     this.dom.prepend(ele.dom);
     return this;
   }
@@ -40,11 +40,15 @@ export default class SimpleDom {
     return this;
   }
 
-  remove() {
+  rmv() {
     this.dom.remove();
   }
 
   getDom(): HTMLElement {
     return this.dom;
   }
+}
+
+export const sd = (element: keyof HTMLElementTagNameMap | HTMLElement): SD => {
+  return new SD(element)
 }

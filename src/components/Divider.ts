@@ -5,6 +5,6 @@ import './divider.scss'
 export default class Divider extends BasicComponent {
   constructor() {
     super('div')
-    this.dom.class('divider')
+    this.dom.cls('divider')
   }
 }

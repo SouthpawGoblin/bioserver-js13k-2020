@@ -9,7 +9,7 @@
   text-align: center;
   height: 3rem;
   line-height: 3rem;
-  color: $colorBlue;
+  color: $colorGreen;
   font-weight: bold;
   animation-duration: 1s;
   animation-name: pause-anim;
@@ -25,25 +25,4 @@
   to {
     opacity: 0.3;
   }
-  // 0% {
-  //   color: darken(#ff3d3d, 10%);
-  // }
-  // 16% {
-  //   color: darken(#f88a33, 10%);
-  // }
-  // 32% {
-  //   color: darken(#f0ec29, 10%);
-  // }
-  // 48% {
-  //   color: darken(#39ff30, 10%);
-  // }
-  // 64% {
-  //   color: darken(#36ffd6, 10%);
-  // }
-  // 83% {
-  //   color: darken(#2e50ff, 10%);
-  // }
-  // 100% {
-  //   color: darken(#d233ff, 10%);
-  // }
 }

@@ -1,7 +1,7 @@
 export const LIKES_NEEDED = 1000;
 export const ID_NONE = -1;
 export const ID_404 = 0;
-export const TURN_DELAY = 500;
+export const TURN_DELAY = 300;
 export const DEFAULT_TIMEOUT = 8000;
 
 export interface Product {

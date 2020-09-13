@@ -4,7 +4,7 @@ import LastRequestCard from "./request-cards/LastRequestCard";
 import CurrentRequestCard from "./request-cards/CurrentRequestCard";
 import NextRequestCard from "./request-cards/NextRequestCard";
 import Game, { GameCustomEventDetail, isChanged } from "../game";
-import SimpleDom from "../simple-dom";
+import SD, { sd } from "../simple-dom";
 
 export default class RequestQueue extends BasicComponent {
   currentRequest?: CurrentRequestCard;
@@ -13,7 +13,7 @@ export default class RequestQueue extends BasicComponent {
 
   constructor() {
     super('div');
-    this.dom.class('request-queue');
+    this.dom.cls('request-queue');
   }
 
   onUpdate(detail: GameCustomEventDetail) {
@@ -36,11 +36,10 @@ export default class RequestQueue extends BasicComponent {
           this.lastRequest = new LastRequestCard(Game.state!.lastRequest!);
           this.add(this.lastRequest);
         } else {
-          const placeholder = new SimpleDom('div');
-          placeholder
+          const placeholder = sd('div')
             .id('last-req-placeholder')
-            .class('request-card last');
-          this.dom.append(placeholder);
+            .cls('request-card last');
+          this.dom.apd(placeholder);
         }
       }
     }

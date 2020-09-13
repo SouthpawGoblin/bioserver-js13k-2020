@@ -1,52 +1,50 @@
 import BasicComponent from "./Basic";
-import SimpleDom from "../simple-dom";
+import SD, { sd } from "../simple-dom";
 import './header.scss';
 import { LIKES_NEEDED } from "../constants";
 import { GameCustomEventDetail, isChanged, getLikeDom } from "../game";
 
 export default class Header extends BasicComponent {
-  likes: SimpleDom;
-  title: SimpleDom;
-  successCount: SimpleDom;
-  failCount: SimpleDom;
+  likes: SD;
+  title: SD;
+  successCount: SD;
+  failCount: SD;
 
   constructor() {
     super('header');
-    this.dom.class('header');
+    this.dom.cls('header');
     
-    this.likes = new SimpleDom('div');
-    this.likes.class('likes');
+    this.likes = sd('div').cls('likes');
     
-    this.title = new SimpleDom('div');
-    this.title
-      .class('title')
-      .text('Bio-Server');
+    this.title = sd('div')
+      .cls('title')
+      .tt('Bio-Server');
     
-    const statistics = new SimpleDom('div');
-    statistics.class('statistics');
-    this.successCount = new SimpleDom('div');
-    this.failCount = new SimpleDom('div');
+    const statistics = sd('div')
+      .cls('statistics');
+    this.successCount = sd('div');
+    this.failCount = sd('div');
     statistics
-      .append(this.successCount)
-      .append(this.failCount);
+      .apd(this.successCount)
+      .apd(this.failCount);
 
     this.dom
-      .append(this.likes)
-      .append(this.title)
-      .append(statistics);
+      .apd(this.likes)
+      .apd(this.title)
+      .apd(statistics);
   }
 
   onUpdate(detail: GameCustomEventDetail) {
     if (isChanged(detail, 'likes')) {
       this.likes.getDom().children.length && this.likes.getDom().children.item(0)?.remove();
-      this.likes.append(getLikeDom(`: ${detail.newState.likes}/${LIKES_NEEDED}`));
+      this.likes.apd(getLikeDom(`: ${detail.newState.likes}/${LIKES_NEEDED}`));
       // this.likes.text(`likes: ${detail.newState.likes}/${LIKES_NEEDED}`);
     }
     if (isChanged(detail, 'successCount')) {
-      this.successCount.text(`success: ${detail.newState.successCount}`);
+      this.successCount.tt(`success: ${detail.newState.successCount}`);
     }
     if (isChanged(detail, 'failCount')) {
-      this.failCount.text(`fail: ${detail.newState.failCount}`);
+      this.failCount.tt(`fail: ${detail.newState.failCount}`);
     }
   };
 }

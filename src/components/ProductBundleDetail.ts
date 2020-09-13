@@ -7,7 +7,7 @@ import './product-bundle-detail.scss'
 export default class ProductBundleDetail extends BasicComponent {
   constructor(bundle: ProductBundle) {
     super('div')
-    this.dom.class('bundle-detail')
+    this.dom.cls('bundle-detail')
     if (bundle.type === 'CARD_PACK') {
       CREATURES.filter(c => c.bundle === bundle.id).forEach(c => {
         this.add(new BaseCard(c))

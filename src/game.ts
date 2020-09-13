@@ -1,7 +1,7 @@
 import { ID_NONE, BUNDLE_INDEX, Product, ID_404, CREATURES, CLASSES, COLORS, TURN_DELAY, PRODUCT_BUNDLES, DEFAULT_TIMEOUT } from "./constants";
 import BasicComponent from "./components/Basic";
 import BaseCard from "./components/response-cards/BaseCard";
-import SimpleDom from "./simple-dom";
+import SD, { sd } from "./simple-dom";
 import likeSvg from './assets/like.svg';
 
 export interface Request {
@@ -60,7 +60,7 @@ export const getResText = (wholeSet: Product[], id: number): string => {
   }
 }
 
-export const getResLikes = (wholeSet: Product[], reqId: number, resId: number, isCreature: boolean): SimpleDom => {
+export const getResLikes = (wholeSet: Product[], reqId: number, resId: number, isCreature: boolean): SD => {
   let likeText = '';
   const prod = wholeSet.find(item => item.id === resId);
   if (resId === ID_NONE) {
@@ -87,10 +87,9 @@ export const getResClass = (reqId: number, resId: number): string => {
   }
 }
 
-export const getDealCardById = (id: number): SimpleDom | null => {
+export const getDealCardById = (id: number): SD | null => {
   if (id === ID_NONE) {
-    const blank = new SimpleDom('div');
-    blank.class('class blank');
+    const blank = sd('div').cls('class blank');
     return blank;
   } else if (id === ID_404) {
     const cardComponent = new BaseCard({
@@ -127,9 +126,8 @@ export const calcTurnLikes = (request: Request): number => {
   }
 }
 
-export const getLikeDom = (text: string, size?: number, swap?: boolean): SimpleDom => {
-  const dom = new SimpleDom('div');
-  dom.class('like');
+export const getLikeDom = (text: string, size?: number, swap?: boolean): SD => {
+  const dom = sd('div').cls('like');
   const likeImg = document.createElement('img');
   likeImg.src = likeSvg;
   if (size) {
@@ -148,17 +146,16 @@ export const getLikeDom = (text: string, size?: number, swap?: boolean): SimpleD
 }
 
 export const showTurnResult = (likes: number) => {
-  const result = new SimpleDom('div')
+  const result = sd('div')
   let content
   if (likes !== 0) {
     content = getLikeDom(` ${likes > 0 ? '+' : ''}${likes}`)
   } else {
-    content = new SimpleDom('span')
-    content.text('Pass')
+    content = sd('span').tt('Pass')
   }
-  result.append(content)
+  result.apd(content)
   const classes = ['turn-result']
-  if (likes < 0) {
+  if (likes < -1) {
     classes.push('fail')
   } else if (likes === -1) {
     classes.push('not-found')
@@ -167,9 +164,9 @@ export const showTurnResult = (likes: number) => {
   } else {
     classes.push('big-success')
   }
-  result.class(classes.join(' '))
+  result.cls(classes.join(' '))
   setTimeout(() => {
-    result.class(classes.join(' ') + ' animate')
+    result.cls(classes.join(' ') + ' animate')
   }, TURN_DELAY)
   const resultDom = result.getDom()
   document.body.appendChild(resultDom)
@@ -245,7 +242,7 @@ export default class Game {
     const nextRequest = Game.generateRequest(inventory);
     Game.setState({
       paused: false,
-      likes: 999,
+      likes: 0,
       turnCount: 1,
       successCount: 0,
       failCount: 0,
@@ -275,8 +272,8 @@ export default class Game {
         ...Game.state!,
         likes: (Game.state!.likes + deltaLikes) > 0 ? (Game.state!.likes + deltaLikes) : 0,
         turnCount: Game.state!.turnCount + 1,
-        successCount: Game.state!.successCount + (deltaLikes > 0 ? 1 : 0),
-        failCount: Game.state!.failCount + (deltaLikes > 0 ? 0 : 1),
+        successCount: Game.state!.successCount + (deltaLikes >= -1 ? 1 : 0),
+        failCount: Game.state!.failCount + (deltaLikes >= -1 ? 0 : 1),
         lastRequest: { ...Game.state!.currentRequest },
         currentRequest: { ...Game.state!.nextRequest },
         nextRequest: Game.generateRequest(Game.state!.inventory, timeout),
